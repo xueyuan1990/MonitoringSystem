@@ -1,0 +1,20 @@
+
+#loginForm input {
+	height: 36px;
+	line-height: 36px;
+	font-size: 16px;
+}
+
+#loginForm .row {
+	margin-bottom: 10px;
+	
+}
+
+#loginBtn{
+	width: 325px;
+}
+
+.row .span9{
+	margin: 0px auto; 
+	float: none;
+}

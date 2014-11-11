@@ -1,0 +1,22 @@
+div.group{
+	background-color: #fff;
+	border-radius: 10px;
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 2px solid #eee;
+	border-bottom: 2px solid #eee;
+	margin-bottom:10px;
+	overflow:hidden;
+}
+div.pie{
+	float:left;
+}
+.well{
+	margin-bottom: 0px;
+}
+.pie path, .pie tspan, .rvml {
+    cursor: pointer;
+}
+.trunkip span{
+	width:150px;
+}
