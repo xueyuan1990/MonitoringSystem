@@ -170,11 +170,16 @@ public class StorageService {
             if (!timeInList.equals(timeOutList)) {
                 Storage s = new Storage();
                 s.setTime(timeOutList);// 如果不存在这个时间值，则加入
-                s.setFreeStorage(free);
-                s.setUsedStorage(used);
-                s.setTotalStorage(total);
-                s.setSuccessUploadCount(upload);
-                s.setSuccessDownloadCount(download);
+                //                s.setFreeStorage(free);
+                //                s.setUsedStorage(used);
+                //                s.setTotalStorage(total);
+                //                s.setSuccessUploadCount(upload);
+                //                s.setSuccessDownloadCount(download);
+                s.setFreeStorage(0);
+                s.setUsedStorage(0);
+                s.setTotalStorage(0);
+                s.setSuccessUploadCount(0);
+                s.setSuccessDownloadCount(0);
                 list.add(i, s);
             }
             i++;
