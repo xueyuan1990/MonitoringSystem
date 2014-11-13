@@ -160,26 +160,21 @@ public class StorageService {
         while (startTimeLong <= endTimeLong) {
             if (i <= list.size() - 1) {
                 timeInList = list.get(i).getTime();
-                free = list.get(i).getFreeStorage();//容量情况
-                used = list.get(i).getUsedStorage();//容量情况
-                total = list.get(i).getTotalStorage();//容量情况
-                upload = list.get(i).getSuccessUploadCount();
-                download = list.get(i).getSuccessDownloadCount();
+                //                free = list.get(i).getFreeStorage();//容量情况
+                //                used = list.get(i).getUsedStorage();//容量情况
+                //                total = list.get(i).getTotalStorage();//容量情况
+                //                upload = list.get(i).getSuccessUploadCount();
+                //                download = list.get(i).getSuccessDownloadCount();
             }
             String timeOutList = dateFormat.format(new Date(startTimeLong)).toString();
             if (!timeInList.equals(timeOutList)) {
                 Storage s = new Storage();
                 s.setTime(timeOutList);// 如果不存在这个时间值，则加入
-                //                s.setFreeStorage(free);
-                //                s.setUsedStorage(used);
-                //                s.setTotalStorage(total);
-                //                s.setSuccessUploadCount(upload);
-                //                s.setSuccessDownloadCount(download);
-                s.setFreeStorage(0);
-                s.setUsedStorage(0);
-                s.setTotalStorage(0);
-                s.setSuccessUploadCount(0);
-                s.setSuccessDownloadCount(0);
+                s.setFreeStorage(free);
+                s.setUsedStorage(used);
+                s.setTotalStorage(total);
+                s.setSuccessUploadCount(upload);
+                s.setSuccessDownloadCount(download);
                 list.add(i, s);
             }
             i++;
