@@ -63,32 +63,32 @@ function showInTable() {
 				elCls : 'center'
 			},
 			{
-				title : '上传文件数',
+				title : '上传文件',
 				dataIndex : 'successUploadCount',
 				elCls : 'right'
 			},
 			{
-				title : '下载文件数',
+				title : '下载文件',
 				dataIndex : 'successDownloadCount',
 				elCls : 'right'
 			},
 			{
-				title : '总容量（M）',
+				title : '总容量',
 				dataIndex : 'totalStorage',
 				elCls : 'right'
 			},
 			{
-				title : '已用容量（M）',
+				title : '已用容量',
 				dataIndex : 'usedStorage',
 				elCls : 'right'
 			},
 			{
-				title : '空闲容量（M）',
+				title : '空闲容量',
 				dataIndex : 'freeStorage',
 				elCls : 'right'
 			},
 			{
-				title : '设置阀值（M）',
+				title : '阀值',
 				dataIndex : 'serverThreshold',
 				elCls : 'right',
 				editor : {
@@ -97,7 +97,7 @@ function showInTable() {
 				}
 			},
 			{
-				title : '服务器IP',
+				title : 'IP',
 				dataIndex : 'ipAddr',
 				elCls : 'center'
 			},
@@ -107,7 +107,7 @@ function showInTable() {
 				elCls : 'center'
 			},
 			{
-				title : '查看趋势图',
+				title : '趋势图',
 				dataIndex : 'show',
 				elCls : 'center',
 				renderer : function() {
@@ -152,7 +152,7 @@ function showInTable() {
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
 		forceFit : true, // 列宽按百分比自适应
-		 height : $("body").height()-17-496,//886,903,260,
+		 height : $(window).height()-$('#part1').offset().top-5,//$("body").height()-17-496,
 		columns : columns,
 //		loadMask : true, // 加载数据时显示屏蔽层
 		plugins : [ editing,BUI.Grid.Plugins.AutoFit ],
@@ -244,16 +244,13 @@ function searchOneStorage(groupId, serverId, days) {
 	}
 	var chart = new AChart({
 		id : 'part2',
-		height : 400,
+		height : 308,
 		forceFit : true, //自适应宽度
 		plotCfg : {
-			margin : [ 50, 50, 80 ]
+			margin : [ 50, 50, 40 ]
 		// 画板的边距
 		},
 		title : {
-			text : '服务器使用情况趋势图'
-		},
-		subTitle : {
 			text : groupId + '组' + serverId + '号服务器 ' + days + '天内趋势图'
 		},
 //		colors : ["#0590FA","#4DCEFF","#BBE3A7","#FFB65D"],

@@ -103,6 +103,7 @@ function showUserInTable() {
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
 		forceFit : true, // 列宽按百分比自适应
+		 height : $(window).height()-$('#part1').offset().top-5,
 		// height : 600,
 		// width:1636,
 		columns : columns,
