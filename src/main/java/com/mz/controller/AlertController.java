@@ -45,7 +45,7 @@ public class AlertController {
         Map<String, Object> map = new HashMap<String, Object>();
         List codeList = new ArrayList();
         List messageList = new ArrayList();
-        Map valueMap = new HashMap();
+        Map<String, String> valueMap = new HashMap<String, String>();
 
         if (trackerListOffline.size() == 0 && storageListOffline.size() == 0
                 && storageListFreeStorage.size() == 0) {
@@ -53,28 +53,28 @@ public class AlertController {
         } else {
             if (trackerListOffline.size() != 0) {
                 codeList.add(1101);//1101:跟踪服务器 OFFLINE
-                messageList.add("跟踪服务器 OFFLINE");
+                messageList.add("跟踪服务器-OFFLINE");
                 Iterator<Tracker> it = trackerListOffline.iterator();
                 while (it.hasNext()) {
                     Tracker tracker = it.next();
                     int trackerId = tracker.getTrackerId();
-                    valueMap.put("Tracker: " + trackerId, "Tracker OFFLINE");
+                    valueMap.put("Tracker " + trackerId, "Tracker OFFLINE");
                 }
             }
             if (storageListOffline.size() != 0) {
                 codeList.add(1201);//1201:存储服务器 OFFLINE
-                messageList.add("存储服务器 OFFLINE");
+                messageList.add("存储服务器-OFFLINE");
                 Iterator<Storage> it = storageListOffline.iterator();
                 while (it.hasNext()) {
                     Storage storage = it.next();
                     int groupId = storage.getGroupId();
                     int serverId = storage.getServerId();
-                    valueMap.put("Storage: " + groupId + "-" + serverId, "Storage OFFLINE");
+                    valueMap.put("Storage " + groupId + "-" + serverId, "Storage OFFLINE");
                 }
             }
             if (storageListFreeStorage.size() != 0) {
                 codeList.add(1202);//1202:存储服务器 空闲容量低于阀值
-                messageList.add("存储服务器 空闲容量低于阀值");
+                messageList.add("存储服务器-空闲容量低于阀值");
                 Iterator<Storage> it = storageListFreeStorage.iterator();
                 while (it.hasNext()) {
                     Storage storage = it.next();
@@ -82,8 +82,14 @@ public class AlertController {
                     int serverId = storage.getServerId();
                     int freeStorage = storage.getFreeStorage();
                     int serverThreshold = storage.getServerThreshold();
-                    valueMap.put("Storage: " + groupId + "-" + serverId, "serverThreshold = "
-                            + serverThreshold);
+                    String key = "Storage " + groupId + "-" + serverId;
+                    if (valueMap.containsKey(key)) {
+                        String value = valueMap.get(key) + "," + "serverThreshold = "
+                                + serverThreshold;
+                        valueMap.put(key, value);
+                    } else {
+                        valueMap.put(key, "serverThreshold = " + serverThreshold);
+                    }
                 }
             }
             map.put("code", codeList);

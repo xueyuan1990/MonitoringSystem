@@ -1,5 +1,5 @@
 
-mysql -h127.0.0.1 -uroot -proot
+mysql -h172.16.3.14 -uroot -proot
 use fdfs_monitor;
 select free from storage where groupId=1 and serverId=1 and time>'2014-10-14 08:00:00' and time<'2014-10-14 10:00:00';
 索引：
