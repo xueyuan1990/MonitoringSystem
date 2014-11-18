@@ -34,16 +34,13 @@ public class StorageService {
     }
 
 
-    public List<Storage> selectStorageById(int groupId, int serverId, String time, int start,
-                                           int limit) {
+    public List<Storage> selectStorageById(int groupId, int serverId, String time) {
         List<Storage> list = new ArrayList<Storage>();
         time = getFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("groupId", groupId);
         params.put("serverId", serverId);
-        params.put("start", start);
-        params.put("limit", limit);
         list = sqlSession.selectList("storage.selectStorageById", params);
         return list;
     }

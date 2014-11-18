@@ -35,7 +35,7 @@
 			<li class="item"><a href="${path}/view/prediction.jsp"><i
 					class="icon iconfont">&#xf00d0;</i>&nbsp;&nbsp;系统预测</a></li>
 					 -->
-			<li class="item"><a href="${path}/view/authority.jsp"> <i
+			<li class="item"><a href="${path}/view/usermanager.jsp"> <i
 					class="icon iconfont">&#xf00d5;</i>&nbsp;&nbsp;用户管理
 			</a></li>
 		</ul>

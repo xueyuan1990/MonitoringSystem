@@ -40,7 +40,7 @@ public class StorageController {
             list = storageService.selectAllStorage(time, start, limit);
             count = storageService.countStorage(time);
         } else {
-            list = storageService.selectStorageById(groupId, serverId, time, start, limit);
+            list = storageService.selectStorageById(groupId, serverId, time);
             count = 1;
         }
         /*

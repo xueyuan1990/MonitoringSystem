@@ -66,7 +66,7 @@ function search() {
 								+ '</h2></div>');
 				selectStorageByGroup(groupId);// 按组查询服务器
 			}
-			$('#time').attr("value",datas[0].time.substring(0,16));
+//			$('#time').attr("value",datas[0].time.substring(0,16));
 		}
 	});
 }

@@ -6,14 +6,8 @@ $(function() {
 		autoRender : true
 	});
 
-	$("#searchBtn").bind('click', showInTable());
+	$("#searchBtn").bind('click', showInTable);
 	$("#searchBtn").trigger('click');
-//	var h = document.body.clientHeight;
-//	alert("a"+h);
-//	$(window).load(function(){h = $("body").height();alert(h);})
-	//886
-//	var h=window.screen.availHeight;
-	
 });
 
 // 获取URL参数
@@ -175,7 +169,6 @@ function showInTable() {
 	});
 
 	grid.render();
-	$("#time").val("");
 }
 
 // 趋势图

@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/header.jspf"%>
-<link href="${path}/css/authority.css" rel="stylesheet">
+<link href="${path}/css/usermanager.css" rel="stylesheet">
 <style>
 </style>
 </head>
@@ -59,7 +59,7 @@
 		</form>
 	</div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>
-	<script src="${path}/js/authority.js"></script>
+	<script src="${path}/js/usermanager.js"></script>
 
 </body>
 </html>
