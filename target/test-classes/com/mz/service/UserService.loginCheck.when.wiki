@@ -2,7 +2,7 @@
 |clean table|user|   
 |insert|user| 
 |username|password|createTime| 
-|31|p1|2011-11-11 11:11:11|  
+|userLogin|p1|2011-11-11 11:11:11|  
 
 |commit| 
 

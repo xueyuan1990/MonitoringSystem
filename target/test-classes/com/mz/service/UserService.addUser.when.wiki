@@ -1,8 +1,8 @@
 |connect| 
 |clean table|user|   
 |insert|user| 
-|username|password|  
-|31|p1|   
+|username|password| 
+|u2|p1|
 
 |commit| 
 

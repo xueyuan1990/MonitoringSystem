@@ -1,0 +1,6 @@
+|connect| 
+|query|select username,password from user|   
+|username|password|   
+|u2|p1| 
+
+

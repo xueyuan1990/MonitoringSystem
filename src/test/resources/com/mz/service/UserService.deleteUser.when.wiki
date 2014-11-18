@@ -1,9 +1,9 @@
 |connect| 
 |clean table|user|   
-
 |insert|user| 
-|username|password|
-|u1|p1|   
+|username|password| 
+|userDelete|p1|  
+|u2|p1| 
 
 |commit| 
 

@@ -3,14 +3,17 @@ package com.mz.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jtester.annotations.SpringApplicationContext;
+import org.jtester.annotations.SpringBeanByName;
+import org.jtester.testng.JTester;
+import org.testng.annotations.Test;
 
 import com.mz.entity.Storage;
-import com.mz.test.common.SpringBaseTest;
 
-public class StorageServiceTest extends SpringBaseTest {
-    @Autowired
+@Test
+@SpringApplicationContext({ "spring-test-datasources.xml" })
+public class StorageServiceTest extends JTester {
+    @SpringBeanByName("storageService")
     StorageService storageService;
 
 
