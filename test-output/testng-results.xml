@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="1591" started-at="2014-11-18T01:54:04Z" finished-at="2014-11-18T01:54:05Z">
+    <groups>
+      <group name="all-test">
+        <method signature="UserServiceTest.testLoginCheck()[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="testLoginCheck" class="com.mz.service.UserServiceTest"/>
+      </group> <!-- all-test -->
+    </groups>
+    <test name="Default test" duration-ms="1591" started-at="2014-11-18T01:54:04Z" finished-at="2014-11-18T01:54:05Z">
+      <class name="com.mz.service.UserServiceTest">
+        <test-method status="PASS" signature="aBeforeClass(org.testng.ITestContext)[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="aBeforeClass" is-config="true" duration-ms="1129" started-at="2014-11-18T09:54:04Z" finished-at="2014-11-18T09:54:05Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@7e0bbf3]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- aBeforeClass -->
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="aBeforeMethod" is-config="true" duration-ms="3" started-at="2014-11-18T09:54:05Z" finished-at="2014-11-18T09:54:05Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.mz.service.UserServiceTest.testLoginCheck()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- aBeforeMethod -->
+        <test-method status="PASS" signature="testLoginCheck()[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="testLoginCheck" duration-ms="451" started-at="2014-11-18T09:54:05Z" finished-at="2014-11-18T09:54:05Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoginCheck -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-18T09:54:05Z" finished-at="2014-11-18T09:54:05Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.mz.service.UserServiceTest.testLoginCheck()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- zAfterMethod -->
+        <test-method status="PASS" signature="zAfterClass()[pri:0, instance:com.mz.service.UserServiceTest@3f55df18]" name="zAfterClass" is-config="true" duration-ms="2" started-at="2014-11-18T09:54:05Z" finished-at="2014-11-18T09:54:05Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- zAfterClass -->
+      </class> <!-- com.mz.service.UserServiceTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

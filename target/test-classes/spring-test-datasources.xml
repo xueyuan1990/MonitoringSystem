@@ -17,7 +17,7 @@
 		<property name="driverClassName" value="${database.driverClassName}"></property>
 		<property name="url"
 			value="${database.url}"></property>
-		<property name="username" value="${database.username}"></property>
+		<property name="username" value="${database.userName}"></property>
 		<property name="password" value="${database.password}"></property>
 		<property name="maxActive" value="100"></property>
 		<property name="maxIdle" value="30"></property>

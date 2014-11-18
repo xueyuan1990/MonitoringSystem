@@ -111,7 +111,7 @@ insert into storage(time,groupId,serverId,ip,total,free,threshold) values("2014-
 insert into storage(time,groupId,serverId,ip,total,free,threshold) values("2014-01-01 02:00:00",4,3,'127.0.0.1 ACTIVE',300,50,0);
 
 insert into user values("admin","123","2014-01-01 02:00:00");
-insert into user values("user1","123","2014-01-01 02:00:00");
+insert into user values("u1","p1","2014-01-01 02:00:00");
 insert into user values("user2","123","2014-01-01 02:00:00");
 insert into user values("user3","123","2014-01-01 02:00:00");
 insert into user values("user4","123","2014-01-01 02:00:00");
