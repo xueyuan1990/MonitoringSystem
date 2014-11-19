@@ -19,7 +19,10 @@ public class JettyServer {
 
 
     /**
-     * 创建用于正常运行调试的Jetty Server, 以src/main/webapp为Web应用目录.
+     * 创建用于正常运行调试的Jetty Server, 以src/main/webapp为Web应用目录
+     * 
+     * @author xueyuan
+     * @since 1.0
      */
     public static Server buildNormalServer(int port, String contextPath) {
         Server server = new Server(port);
