@@ -4,7 +4,7 @@ import org.jtester.annotations.DbFit;
 import org.jtester.annotations.SpringApplicationContext;
 import org.jtester.annotations.SpringBeanByName;
 import org.jtester.testng.JTester;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.mz.entity.User;

@@ -120,7 +120,7 @@ public class StorageService {
         long endTimeLong = dateFormat.parse(endTime).getTime();
         int size = (int) ((endTimeLong - startTimeLong) / timeInterval + 1);
         if (size != list.size()) {
-            list = checkStoragePeriod(list, startTime, endTime, days);
+            list = checkStoragePeriod(list, groupId, serverId, startTime, endTime, days);
         }
         if (days == 90) {//5天一次
             int i = 0;
@@ -138,8 +138,9 @@ public class StorageService {
 
 
     // 判断序列中是否是相邻日期
-    public List<Storage> checkStoragePeriod(List<Storage> list, String startTime, String endTime,
-                                            int days) throws Exception {
+    private List<Storage> checkStoragePeriod(List<Storage> list, int groupId, int serverId,
+                                             String startTime, String endTime, int days)
+            throws Exception {
 
         startTime = getFormatTime(startTime);
         endTime = getFormatTime(endTime);
@@ -167,6 +168,8 @@ public class StorageService {
             if (!timeInList.equals(timeOutList)) {
                 Storage s = new Storage();
                 s.setTime(timeOutList);// 如果不存在这个时间值，则加入
+                s.setGroupId(groupId);
+                s.setServerId(serverId);
                 s.setFreeStorage(free);
                 s.setUsedStorage(used);
                 s.setTotalStorage(total);
@@ -200,9 +203,8 @@ public class StorageService {
 
 
     // 获取当前时间
-    public String getFormatTime(String time) {
+    private String getFormatTime(String time) {
         if (time == null || time.trim().length() == 0) {
-            //            time = "2014-10-31 03:00";//测试代码
             //current time
             //            Date now = new Date();
             //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");

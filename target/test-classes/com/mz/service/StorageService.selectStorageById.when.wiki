@@ -1,0 +1,26 @@
+|connect| 
+|clean table|storage;serverStorage;groupStorage| 
+|insert|groupStorage|
+|groupId|groupThreshold|
+|1|600|
+|2|800| 
+
+|insert|serverStorage|
+|groupId|serverId|serverThreshold|
+|1|1|300|
+|1|2|300|
+|2|1|400|
+|2|2|400|
+
+
+|insert|storage| 
+|time|groupId|serverId|ip_addr|total_storage|free_storage|success_upload_count|success_download_count|last_heart_beat_time|
+|2014-01-01 08:00:00|1|1|127.0.0.1 ACTIVE|1000|400|90|80|2014-01-01 08:00:00|
+|2014-01-01 09:00:00|1|1|127.0.0.1 ACTIVE|1000|700|90|80|2014-01-01 09:00:00|
+|2014-01-01 11:00:00|1|1|127.0.0.1 ACTIVE|1000|800|90|80|2014-01-01 11:00:00|
+|2014-01-01 08:00:00|1|2|127.0.0.2 OFFLINE|1000|500|90|80|2014-01-01 08:00:00|
+|2014-01-01 09:00:00|1|2|127.0.0.2 OFFLINE|1000|900|90|80|2014-01-01 08:00:00|
+|2014-01-01 11:00:00|1|2|127.0.0.2 OFFLINE|1000|800|90|80|2014-01-01 08:00:00|
+
+|commit| 
+
