@@ -3,15 +3,15 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.mz.service.StorageServiceTest">
+      <class name="com.mz.service.UserServiceTest">
         <methods>
           <include name="zAfterClass"/>
-          <include name="testAlertOffline"/>
+          <include name="test2"/>
           <include name="aBeforeMethod"/>
           <include name="aBeforeClass"/>
           <include name="zAfterMethod"/>
         </methods>
-      </class> <!-- com.mz.service.StorageServiceTest -->
+      </class> <!-- com.mz.service.UserServiceTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

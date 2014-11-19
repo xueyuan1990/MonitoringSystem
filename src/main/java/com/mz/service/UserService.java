@@ -21,6 +21,9 @@ public class UserService {
 
     public boolean loginCheck(User u) {//用户名、密码是否正确，如果正确则登录成功，返回true
         boolean flag = false;
+        if (u == null) {
+            return flag;
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("username", u.getUsername());
         params.put("password", u.getPassword());
@@ -33,6 +36,10 @@ public class UserService {
 
 
     public User selectByUsername(String username) {//用户是否已经存在，如果存在返回true
+        if (username == null) {
+            return null;
+        }
+        username = username.trim();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("username", username);
         User user = new User();
@@ -43,6 +50,9 @@ public class UserService {
 
     public boolean addUser(User u) {
         boolean flag = false;
+        if (u == null) {
+            return flag;
+        }
         String username = u.getUsername().trim();
         String password = u.getPassword().trim();
         Date now = new Date();
@@ -65,8 +75,11 @@ public class UserService {
 
     public boolean deleteUser(String username) {
         boolean flag = false;
+        if (username == null) {
+            return flag;
+        }
         username = username.trim();
-        if (username != null && username.length() != 0 && selectByUsername(username) != null) {//用户名已经存在
+        if (username.length() != 0 && selectByUsername(username) != null) {//用户名已经存在
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("username", username);
             int i = sqlSession.delete("user.deleteUser", params);

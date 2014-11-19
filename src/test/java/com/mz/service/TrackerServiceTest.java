@@ -1,7 +1,6 @@
 package com.mz.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jtester.annotations.DbFit;
@@ -33,12 +32,9 @@ public class TrackerServiceTest extends JTester {
     public void testAlertOffline() {
         List<Tracker> list = new ArrayList<Tracker>();
         list = trackerService.alertOffline();
-        Iterator<Tracker> it = list.iterator();
-        while (it.hasNext()) {
-            Tracker tracker = it.next();
-            String trackerState = tracker.getTrackerState();
-            want.string(trackerState).contains("OFFLINE");
-        }
+
+        want.list(list).allItemsMatchAll(
+                the.object().propertyMatch("trackerState", the.string().contains("OFFLINE")));
 
     }
 }

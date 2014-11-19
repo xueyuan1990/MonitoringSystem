@@ -141,7 +141,9 @@ public class StorageService {
     private List<Storage> checkStoragePeriod(List<Storage> list, int groupId, int serverId,
                                              String startTime, String endTime, int days)
             throws Exception {
-
+        if (list == null) {
+            list = new ArrayList<Storage>();
+        }
         startTime = getFormatTime(startTime);
         endTime = getFormatTime(endTime);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -159,10 +161,6 @@ public class StorageService {
             if (i <= list.size() - 1) {
                 timeInList = list.get(i).getTime();
                 //                free = list.get(i).getFreeStorage();//容量情况
-                //                used = list.get(i).getUsedStorage();//容量情况
-                //                total = list.get(i).getTotalStorage();//容量情况
-                //                upload = list.get(i).getSuccessUploadCount();
-                //                download = list.get(i).getSuccessDownloadCount();
             }
             String timeOutList = dateFormat.format(new Date(startTimeLong)).toString();
             if (!timeInList.equals(timeOutList)) {
@@ -205,10 +203,8 @@ public class StorageService {
     // 获取当前时间
     private String getFormatTime(String time) {
         if (time == null || time.trim().length() == 0) {
-            //current time
-            //            Date now = new Date();
             //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            //            time = dateFormat.format(now).toString();
+            //            time = dateFormat.format(new Date()).toString();
             //last time
             time = (String) sqlSession.selectOne("storage.lastTime");
         }
@@ -252,7 +248,5 @@ public class StorageService {
         list = sqlSession.selectList("storage.alertFreeStorage", params);
         return list;
     }
-    //当前连接数接近最大连接数，报警
-    //失败比例过高，报警
 
 }
