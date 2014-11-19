@@ -30,7 +30,7 @@ public class StorageServiceTest extends JTester {
         int serverId = 1;
         String time = "2014-01-01 08:00:00";
         list = storageService.selectStorageById(groupId, serverId, time);
-
+        want.list(list).sizeEq(1);
         want.object(list.get(0)).propertyEq("time", time);//判断对象的属性
         want.object(list.get(0)).propertyEq("groupId", groupId);
         want.object(list.get(0)).propertyEq("serverId", serverId);
