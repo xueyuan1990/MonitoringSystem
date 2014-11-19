@@ -1,22 +1,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.meizu.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.2.1</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.meizu</groupId>
-	<artifactId>MonitoringSystem</artifactId>
+
+	<groupId>com.meizu.fastdfs-web</groupId>
+	<artifactId>fastdfs-web</artifactId>
+	<version>1.0</version>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>MonitoringSystem Maven Webapp</name>
+
+	<name>fastdfs-web</name>
 	<url>http://maven.apache.org</url>
 
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<testng.version>6.8</testng.version>
+		<jtester.version>1.1.8</jtester.version>
+		<fitnesse.version>20100211</fitnesse.version>
+		<junit.version>4.11</junit.version>
 		<jetty.version>6.1.24</jetty.version>
 		<spring.version>3.2.8.RELEASE</spring.version>
 		<mysql.version>5.1.20</mysql.version>
 		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		<mybatis.version>3.0.6</mybatis.version>
-		<junit.version>4.11</junit.version>
 		<c3p0.version>0.9.1</c3p0.version>
 		<jackson.version>1.9.11</jackson.version>
 		<commons-pool.version>1.2</commons-pool.version>
@@ -26,31 +38,69 @@
 		<taglibs.version>1.1.2</taglibs.version>
 		<servlet.version>2.5</servlet.version>
 		<jsp.version>2.2</jsp.version>
-		<maven.version>2.0.2</maven.version>
+		<maven.version>3.2</maven.version>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.version}</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<!-- 涉及数据库的单元测试 -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8</version>
+			<version>${testng.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>jtester</groupId>
 			<artifactId>jtester</artifactId>
-			<version>1.1.8</version>
+			<version>${jtester.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>fitnesse</groupId>
 			<artifactId>fitnesse</artifactId>
-			<version>20100211</version>
+			<version>${fitnesse.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-2.1-jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- spring test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Jackson JSON Mapper -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -75,19 +125,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis-spring.version}</version>
 		</dependency>
-		<!-- jetty -->
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty</artifactId>
-			<version>${jetty.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jsp-2.1-jetty</artifactId>
-			<version>${jetty.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- JDBC驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -157,12 +195,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
@@ -187,13 +219,7 @@
 			<artifactId>c3p0</artifactId>
 			<version>${c3p0.version}</version>
 		</dependency>
-		<!-- junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- web -->
 		<dependency>
 			<groupId>jstl</groupId>
@@ -220,18 +246,5 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.version}</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-		<finalName>MonitoringSystem</finalName>
-	</build>
+
 </project>
