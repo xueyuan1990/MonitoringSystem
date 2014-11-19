@@ -26,7 +26,12 @@ public class StorageService {
     SqlSession sqlSession;
 
 
-    // 查询某一时刻所有服务器状态，时间格式为：2014-09-27 00:50:00
+    /**
+     * 查询某一时刻所有服务器状态，时间格式为：2014-09-27 00:50:00
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> selectAllStorage(String time, int start, int limit) {
         List<Storage> list = new ArrayList<Storage>();
         time = getFormatTime(time);
@@ -52,7 +57,12 @@ public class StorageService {
     }
 
 
-    // 查总数
+    /**
+     * 查总数
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public int countStorage(String time) {
         time = getFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -62,7 +72,12 @@ public class StorageService {
     }
 
 
-    // 查询某一时刻某组服务器状态
+    /**
+     * 查询某一时刻某组服务器状态
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> selectStorageByGroup(String time, int groupId) {
         List<Storage> list = new ArrayList<Storage>();
         time = getFormatTime(time);
@@ -75,7 +90,12 @@ public class StorageService {
     }
 
 
-    //设置阀值
+    /**
+     * 设置阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public boolean updateServerThreshold(int groupId, int serverId, int serverThreshold) {
         boolean flag = false;
         Map<String, Object> params = new HashMap<String, Object>();
@@ -90,7 +110,12 @@ public class StorageService {
     }
 
 
-    // 某段时间内一台服务器的信息
+    /**
+     * 某段时间内一台服务器的信息
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> selectStoragePeriod(int groupId, int serverId, String startTime,
                                              String endTime, int days) throws Exception {
         List<Storage> list = new ArrayList<Storage>();
@@ -143,7 +168,12 @@ public class StorageService {
     }
 
 
-    // 判断序列中是否是相邻日期
+    /**
+     * 判断序列中是否是相邻日期，如果不是，则补全采样点
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     private List<Storage> checkStoragePeriod(List<Storage> list, int groupId, int serverId,
                                              String startTime, String endTime, int days)
             throws Exception {
@@ -194,7 +224,12 @@ public class StorageService {
     }
 
 
-    // 组信息
+    /**
+     * 组信息
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<GroupStorage> selectGroupInfo(String time) {
         List<GroupStorage> list = new ArrayList<GroupStorage>();
         time = getFormatTime(time);
@@ -206,7 +241,12 @@ public class StorageService {
     }
 
 
-    // 获取当前时间
+    /**
+     * 把时间格式化为： yyyy-MM-dd HH:mm:ss 形式。如果时间为null，则从数据库中取出最新时间作为time值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     private String getFormatTime(String time) {
         if (time == null || time.trim().length() == 0) {
             //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -234,7 +274,12 @@ public class StorageService {
     }
 
 
-    //storage OFFLINE时报警
+    /**
+     * storage OFFLINE时报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> alertOffline() {
         String time = getFormatTime("");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -245,7 +290,12 @@ public class StorageService {
     }
 
 
-    // 空闲容量低于阀值，报警
+    /**
+     * 空闲容量低于阀值，报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> alertFreeStorage() {
         String time = getFormatTime("");
         Map<String, Object> params = new HashMap<String, Object>();

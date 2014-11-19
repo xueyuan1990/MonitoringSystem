@@ -28,7 +28,12 @@ public class TrackerService {
     }
 
 
-    //Tracker OFFLINE时报警
+    /**
+     * Tracker OFFLINE时报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Tracker> alertOffline() {
         List<Tracker> list = new ArrayList<Tracker>();
         list = sqlSession.selectList("tracker.alertOffline");

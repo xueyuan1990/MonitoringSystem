@@ -32,9 +32,6 @@ public class UserController extends BaseController {
     private UserService userService;
 
 
-    /*
-     * json格式
-     */
     @RequestMapping("/selectUser")
     public void selectUser(HttpServletRequest request, HttpServletResponse response) {
 
@@ -67,7 +64,7 @@ public class UserController extends BaseController {
         map.put("results", count);
         map.put("hasError", searchErrorFlag);
         map.put("error", errorMsg);
-
+        //json
         //        Map<String, Object> value = new HashMap<String, Object>();
         //        value.put("rows", list);
         //        value.put("total", count);

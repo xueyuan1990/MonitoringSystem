@@ -33,7 +33,12 @@ public class StorageController {
     private StorageService storageService;
 
 
-    //查询所有服务器
+    /**
+     * 查询所有服务器
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     @RequestMapping("/selectAllStorage")
     public void selectAllStorage(String time, int groupId, int serverId,
                                  HttpServletRequest request, HttpServletResponse response) {
@@ -49,9 +54,7 @@ public class StorageController {
             list = storageService.selectStorageById(groupId, serverId, time);
             count = 1;
         }
-        /*
-         * json格式
-         */
+        //json格式
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("rows", list);
         map.put("results", count);
@@ -68,7 +71,12 @@ public class StorageController {
     }
 
 
-    //按组别查询
+    /**
+     * 按组别查询
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     @RequestMapping("/selectStorageByGroup")
     public void selectStorageByGroup(String time, int groupId, HttpServletRequest request,
                                      HttpServletResponse response) {
@@ -83,7 +91,12 @@ public class StorageController {
     }
 
 
-    //设置阀值
+    /**
+     * 设置阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     @RequestMapping("/updateServerThreshold")
     public void updateServerThreshold(int groupId, int serverId, int serverThreshold,
                                       HttpServletRequest request, HttpServletResponse response) {
@@ -112,10 +125,12 @@ public class StorageController {
     }
 
 
-    /*
-     * json格式
+    /**
+     * 某段时间内一台服务器的信息
+     * 
+     * @author xueyuan
+     * @since 1.0
      */
-    //某段时间内一台服务器的信息
     @RequestMapping("/selectStoragePeriod")
     public void selectStoragePeriod(int groupId, int serverId, String startTime, String endTime,
                                     int days, HttpServletRequest request,
@@ -127,6 +142,7 @@ public class StorageController {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+        //json
         //        Map<String, Object> map = new HashMap<String, Object>();
         //        map.put("code", 200);
         //        map.put("message", "");
@@ -137,7 +153,12 @@ public class StorageController {
     }
 
 
-    //查询组信息
+    /**
+     * 查询组信息
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     @RequestMapping("/selectGroupInfo")
     public void selectGroupInfo(String time, HttpServletRequest request,
                                 HttpServletResponse response) {
