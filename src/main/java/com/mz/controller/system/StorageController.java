@@ -19,6 +19,12 @@ import com.mz.entity.GroupStorage;
 import com.mz.entity.Storage;
 import com.mz.service.StorageService;
 
+/**
+ * Controller:storage相关操作
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Controller
 @RequestMapping("/system/storage")
 public class StorageController {

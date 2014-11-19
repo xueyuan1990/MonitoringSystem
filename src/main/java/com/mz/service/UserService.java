@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.mz.entity.User;
 
+/**
+ * Service:user相关操作
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Service
 public class UserService {
     @Autowired

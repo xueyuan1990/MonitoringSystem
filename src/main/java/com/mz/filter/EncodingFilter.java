@@ -13,6 +13,12 @@ import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Filter:编码过滤
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 public class EncodingFilter implements Filter {
     static Logger logger = LoggerFactory.getLogger(EncodingFilter.class);
 

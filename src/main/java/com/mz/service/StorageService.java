@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 import com.mz.entity.GroupStorage;
 import com.mz.entity.Storage;
 
+/**
+ * Service:storage相关操作
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Service
 public class StorageService {
     @Autowired

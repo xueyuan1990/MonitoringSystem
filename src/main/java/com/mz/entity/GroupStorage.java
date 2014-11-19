@@ -1,5 +1,11 @@
 package com.mz.entity;
 
+/**
+ * 定义GroupStorage类
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 public class GroupStorage {
     private String time;
     private int    groupId;

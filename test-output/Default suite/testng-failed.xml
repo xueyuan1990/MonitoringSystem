@@ -5,9 +5,13 @@
     <classes>
       <class name="com.mz.service.UserServiceTest">
         <methods>
+          <include name="testAddUser"/>
           <include name="zAfterClass"/>
-          <include name="test2"/>
+          <include name="testSelectByUsername"/>
+          <include name="testLoginCheck"/>
+          <include name="testCountUser"/>
           <include name="aBeforeMethod"/>
+          <include name="testDeleteUser"/>
           <include name="aBeforeClass"/>
           <include name="zAfterMethod"/>
         </methods>

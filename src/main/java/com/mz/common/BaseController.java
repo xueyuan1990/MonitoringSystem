@@ -15,6 +15,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.slf4j.Logger;
 
+/**
+ * 提供json操作统一方法
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
+
 public class BaseController {
 
     public static void writeJson(Logger logger, HttpServletResponse response,

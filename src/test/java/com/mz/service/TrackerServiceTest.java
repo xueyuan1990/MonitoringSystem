@@ -11,6 +11,12 @@ import org.testng.annotations.Test;
 
 import com.mz.entity.Tracker;
 
+/**
+ * 测试TrackerServiceTest
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Test
 @SpringApplicationContext("spring-test-datasources.xml")
 public class TrackerServiceTest extends JTester {

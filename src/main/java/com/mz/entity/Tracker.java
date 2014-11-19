@@ -1,5 +1,11 @@
 package com.mz.entity;
 
+/**
+ * 定义Tracker类
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 public class Tracker {
     private int    trackerId;
     private String trackerIp;

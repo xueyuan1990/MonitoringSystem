@@ -1,5 +1,11 @@
 package com.mz.entity;
 
+/**
+ * 定义User类
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 public class User {
     private String username;
     private String password;

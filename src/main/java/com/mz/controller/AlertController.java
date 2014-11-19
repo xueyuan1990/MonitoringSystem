@@ -22,6 +22,12 @@ import com.mz.entity.Tracker;
 import com.mz.service.StorageService;
 import com.mz.service.TrackerService;
 
+/**
+ * Controller:报警功能
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Controller
 @RequestMapping("/alert")
 public class AlertController {

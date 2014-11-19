@@ -16,6 +16,12 @@ import com.mz.common.BaseController;
 import com.mz.entity.User;
 import com.mz.service.UserService;
 
+/**
+ * Controller:用户登录
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -26,7 +32,7 @@ public class LoginController {
 
     @RequestMapping("/loginCheck")
     public void loginCheck(HttpServletRequest request, HttpServletResponse response) {
-       
+
         User u = new User();
         String username = request.getParameter("username");
         String password = request.getParameter("password");

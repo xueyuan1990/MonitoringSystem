@@ -4,8 +4,11 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
- * 开发调试使用的 Jetty Server
- */
+ * JettyServer
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 public class JettyServer {
 
     public static void main(String[] args) throws Exception {

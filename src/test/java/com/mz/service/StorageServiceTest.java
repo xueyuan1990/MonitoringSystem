@@ -15,6 +15,12 @@ import org.testng.annotations.Test;
 import com.mz.entity.GroupStorage;
 import com.mz.entity.Storage;
 
+/**
+ * 测试StorageService
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Test
 @SpringApplicationContext({ "spring-test-datasources.xml" })
 public class StorageServiceTest extends JTester {

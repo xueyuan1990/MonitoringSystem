@@ -1,273 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="9" passed="9">
+<testng-results skipped="0" failed="0" total="5" passed="5">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="1847" started-at="2014-11-19T08:24:45Z" finished-at="2014-11-19T08:24:47Z">
+  <suite name="Default suite" duration-ms="1575" started-at="2014-11-19T09:54:22Z" finished-at="2014-11-19T09:54:23Z">
     <groups>
       <group name="all-test">
-        <method signature="StorageServiceTest.testAlertFreeStorage()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testAlertFreeStorage" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testAlertOffline()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testAlertOffline" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testCountStorage()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testCountStorage" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testSelectGroupInfo()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectGroupInfo" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testSelectStorageByGroup()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStorageByGroup" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testSelectStorageById()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStorageById" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testSelectStoragePeriod1()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStoragePeriod1" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testSelectStoragePeriod7()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStoragePeriod7" class="com.mz.service.StorageServiceTest"/>
-        <method signature="StorageServiceTest.testUpdateServerThreshold()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testUpdateServerThreshold" class="com.mz.service.StorageServiceTest"/>
+        <method signature="UserServiceTest.testAddUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testAddUser" class="com.mz.service.UserServiceTest"/>
+        <method signature="UserServiceTest.testCountUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testCountUser" class="com.mz.service.UserServiceTest"/>
+        <method signature="UserServiceTest.testDeleteUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testDeleteUser" class="com.mz.service.UserServiceTest"/>
+        <method signature="UserServiceTest.testLoginCheck()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testLoginCheck" class="com.mz.service.UserServiceTest"/>
+        <method signature="UserServiceTest.testSelectByUsername()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testSelectByUsername" class="com.mz.service.UserServiceTest"/>
       </group> <!-- all-test -->
     </groups>
-    <test name="Default test" duration-ms="1847" started-at="2014-11-19T08:24:45Z" finished-at="2014-11-19T08:24:47Z">
-      <class name="com.mz.service.StorageServiceTest">
-        <test-method status="PASS" signature="aBeforeClass(org.testng.ITestContext)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeClass" is-config="true" duration-ms="1043" started-at="2014-11-19T16:24:45Z" finished-at="2014-11-19T16:24:46Z">
+    <test name="Default test" duration-ms="1575" started-at="2014-11-19T09:54:22Z" finished-at="2014-11-19T09:54:23Z">
+      <class name="com.mz.service.UserServiceTest">
+        <test-method status="PASS" signature="aBeforeClass(org.testng.ITestContext)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeClass" is-config="true" duration-ms="1067" started-at="2014-11-19T17:54:22Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@28019f62]]>
+                <![CDATA[org.testng.TestRunner@9d9347d]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeClass -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="3" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeMethod" is-config="true" duration-ms="3" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testAlertFreeStorage() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testAddUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="testAlertFreeStorage()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testAlertFreeStorage" duration-ms="484" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        <test-method status="PASS" signature="testAddUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testAddUser" duration-ms="408" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testAlertFreeStorage -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        </test-method> <!-- testAddUser -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testAlertFreeStorage() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testAddUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="1" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testAlertOffline() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testCountUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="testAlertOffline()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testAlertOffline" duration-ms="59" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        <test-method status="PASS" signature="testCountUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testCountUser" duration-ms="15" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testAlertOffline -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        </test-method> <!-- testCountUser -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testAlertOffline() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testCountUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:46Z">
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testCountStorage()]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testDeleteUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="testCountStorage()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testCountStorage" duration-ms="35" started-at="2014-11-19T16:24:46Z" finished-at="2014-11-19T16:24:47Z">
+        <test-method status="PASS" signature="testDeleteUser()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testDeleteUser" duration-ms="22" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testCountStorage -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        </test-method> <!-- testDeleteUser -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testCountStorage()]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testDeleteUser()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="testSelectGroupInfo()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectGroupInfo" duration-ms="43" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSelectGroupInfo -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectGroupInfo() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testLoginCheck()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        <test-method status="PASS" signature="testLoginCheck()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testLoginCheck" duration-ms="18" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoginCheck -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectGroupInfo() throws java.lang.Exception]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testLoginCheck()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="aBeforeMethod" is-config="true" duration-ms="1" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStorageByGroup()]]>
+                <![CDATA[public void com.mz.service.UserServiceTest.testSelectByUsername()]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="testSelectStorageByGroup()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStorageByGroup" duration-ms="46" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        <test-method status="PASS" signature="testSelectByUsername()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="testSelectByUsername" duration-ms="26" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testSelectStorageByGroup -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="1" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStorageByGroup()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="testSelectStorageById()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStorageById" duration-ms="27" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSelectStorageById -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStorageById()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="1" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStoragePeriod1() throws java.lang.Exception]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStorageById()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="testSelectStoragePeriod1()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStoragePeriod1" duration-ms="27" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSelectStoragePeriod1 -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="1" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStoragePeriod1() throws java.lang.Exception]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="testSelectStoragePeriod7()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testSelectStoragePeriod7" duration-ms="29" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSelectStoragePeriod7 -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStoragePeriod7() throws java.lang.Exception]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testSelectStoragePeriod7() throws java.lang.Exception]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="aBeforeMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="aBeforeMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testUpdateServerThreshold()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- aBeforeMethod -->
-        <test-method status="PASS" signature="testUpdateServerThreshold()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="testUpdateServerThreshold" duration-ms="33" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testUpdateServerThreshold -->
-        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void com.mz.service.StorageServiceTest.testUpdateServerThreshold()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- zAfterMethod -->
-        <test-method status="PASS" signature="zAfterClass()[pri:0, instance:com.mz.service.StorageServiceTest@78976bca]" name="zAfterClass" is-config="true" duration-ms="1" started-at="2014-11-19T16:24:47Z" finished-at="2014-11-19T16:24:47Z">
+        </test-method> <!-- testSelectByUsername -->
+        <test-method status="PASS" signature="zAfterClass()[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterClass" is-config="true" duration-ms="2" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- zAfterClass -->
-      </class> <!-- com.mz.service.StorageServiceTest -->
+        <test-method status="PASS" signature="zAfterMethod(java.lang.reflect.Method)[pri:0, instance:com.mz.service.UserServiceTest@2789eebb]" name="zAfterMethod" is-config="true" duration-ms="0" started-at="2014-11-19T17:54:23Z" finished-at="2014-11-19T17:54:23Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.mz.service.UserServiceTest.testSelectByUsername()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- zAfterMethod -->
+      </class> <!-- com.mz.service.UserServiceTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

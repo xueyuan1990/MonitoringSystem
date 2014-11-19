@@ -18,6 +18,12 @@ import com.mz.common.BaseController;
 import com.mz.entity.Tracker;
 import com.mz.service.TrackerService;
 
+/**
+ * Controller:tracker相关操作
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Controller
 @RequestMapping("system/tracker")
 public class TrackerController {

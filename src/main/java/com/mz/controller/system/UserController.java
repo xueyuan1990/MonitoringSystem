@@ -18,6 +18,12 @@ import com.mz.common.BaseController;
 import com.mz.entity.User;
 import com.mz.service.UserService;
 
+/**
+ * Controller:user相关操作
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Controller
 @RequestMapping("/system/user")
 public class UserController extends BaseController {

@@ -8,6 +8,12 @@ import org.testng.annotations.Test;
 
 import com.mz.entity.User;
 
+/**
+ * 测试UserServiceTest
+ * 
+ * @author xueyuan
+ * @since 1.0
+ **/
 @Test
 @SpringApplicationContext({ "spring-test-datasources.xml" })
 public class UserServiceTest extends JTester {
