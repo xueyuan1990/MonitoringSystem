@@ -1,0 +1,21 @@
+<%@ page language="java" import="java.util.*"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+	isELIgnored="false"%>
+<%
+	String path = request.getContextPath();
+	pageContext.setAttribute("path", path);
+%>
+<meta charset="utf-8" />
+<link rel="icon" href="${path}/image/favicon.ico">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="${path}/assets/jquery/jquery.min.js"></script>
+<!--bui  -->
+<script src="${path}/assets/bui/bui-min.js"></script>
+<!--  这里和iconfont有冲突-->
+<link href="${path}/assets/bui/css/bs3/dpl-min.css" rel="stylesheet"/>
+
+<link href="${path}/assets/bui/css/bs3/bui-min.css" rel="stylesheet"/>
+<link href="${path}/css/common.css" rel="stylesheet">
+<script>
+  window.path='${path}';
+</script>

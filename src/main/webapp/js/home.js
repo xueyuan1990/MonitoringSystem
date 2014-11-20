@@ -9,7 +9,7 @@ $(function() {
 	$("#searchBtn").bind('click', search);
 	$("#searchBtn").trigger('click');
 
-	$("#total").delegate(".pie", 'click', function(e) {
+	$("#storageGroup").delegate(".pie", 'click', function(e) {
 		var tagName = $(e.target).prop('tagName');
 		// firefox and chrome path but ie is shape
 		if (tagName == 'path' || tagName == 'tspan' || tagName == 'shape') {
@@ -20,6 +20,7 @@ $(function() {
 // showTracker
 function showTracker() {
 	$("#trackerGroup").empty();
+	$("#trackerGroup").append('<h2>&nbsp;&nbsp;&nbsp;&nbsp;跟踪服务器</h2>');
 $.ajax({
 	url:path+'/system/tracker/selectAllTracker.do',
 	type:'POST',
@@ -37,15 +38,18 @@ $.ajax({
 			}else{
 				image=path +"/image/trackerOffline.jpg";
 			}
-			$("#trackerGroup").append('<div id="'+trackerId+'" class="tracker span7"></div>');
-			$("#"+trackerId).append('<img src="'+image+'" hspace="90" vspace="10"/><div align="center">'+trackerIp+'</div>');
+			$("#trackerGroup").append('<div class="tracker" id="'+trackerId+'"></div>');
+			$("#"+trackerId).append('<div class="img"><img src="'+image+'" width="128" height="128" alt="tracker"/></div>');//图片
+			$("#"+trackerId).append('<div class="tracker_ip" ><h3>'+trackerIp+'</h3></div>');//ip
+			
+			
 		}
 	}
 });
 }
 // 按组别显示详细信息
 function search() {
-	$('#total').empty();
+	$('#storageGroup').empty();
 	// 先查询组信息，之后将按组查询的信息（总信息和各个服务器具体信息），分别放在对应的组中
 	$.ajax({
 		url : path + '/system/storage/selectGroupInfo.do',
@@ -61,12 +65,11 @@ function search() {
 				var data = datas[i];
 				var info = "&nbsp;&nbsp;&nbsp;&nbsp;存储服务器（第" + data.groupId + "组）：总容量=" + data.groupTotal + "M（已用" + data.groupFree + "M，空闲"
 						+ (data.groupTotal - data.groupFree) + "M），阀值=" + data.groupThreshold + "M";
-				$('#total').append(
-						'<div  style="" id="group' + groupId + '" class="group" ><h2 style="clear:left;">' + info
+				$('#storageGroup').append(
+						'<div id="group' + groupId + '" class="group" ><h2>' + info
 								+ '</h2></div>');
 				selectStorageByGroup(groupId);// 按组查询服务器
 			}
-//			$('#time').attr("value",datas[0].time.substring(0,16));
 		}
 	});
 }
@@ -87,8 +90,8 @@ function selectStorageByGroup(groupId) {
 }
 // 点击饼图，显示该server的详细信息
 function showDetails(the) {
-	var groupId = the.attr("groupId");
-	var serverId = the.attr("serverId");
+	var groupId = the.attr("data-groupId");
+	var serverId = the.attr("data-serverId");
 	window.location.href = path + '/view/storage.jsp?groupId=' + groupId + '&serverId=' + serverId;
 }
 // 在饼图中显示各组信息
@@ -97,9 +100,15 @@ function showInPie(datas) {
 		var data = datas[i];
 		var pieId = data.groupId + "-" + data.serverId;
 		var pieIp = data.ipAddr.split(" ")[0];
-		$('#group' + data.groupId).append(
-				'<div groupId="' + data.groupId + '" serverId="' + data.serverId + '" id="pie' + pieId + '" class="pie"></div>');// .pie已添加click事件
-		// 根据状态显示颜色，非ACTIVE为灰色，超过阀值为红色
+		
+		$('#group' + data.groupId).append('<div class="storage" id="storage'+pieId+'"></div>');
+		$("#storage"+pieId).append('<div class="pie_id" ><h3>'+pieId+'</h3></div>');//ip
+		$("#storage"+pieId).append(
+				'<div data-groupId="' + data.groupId + '" data-serverId="' + data.serverId + '" id="pie' + pieId + '" class="pie"></div>');// .pie已添加click事件
+		$("#storage"+pieId).append('<div class="pie_ip" ><h3>'+pieIp+'</h3></div>');//ip
+		
+		
+		
 		var green1 = '#a6c96a';
 		var green2 = '#7bab12';
 		var red1 = '#F28383';
@@ -121,10 +130,7 @@ function showInPie(datas) {
 			width : 300,
 			height : 300,
 			plotCfg : {
-				margin : [ 5 ]
-			},
-			title : {
-				text : pieId + " (" + pieIp + ")"
+				margin : [ 0 ]
 			},
 			legend : null,// 不显示图例
 

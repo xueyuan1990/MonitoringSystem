@@ -1,14 +1,10 @@
-<%@ page language="java" import="java.util.*"
-	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-	isELIgnored="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>监控系统</title>
 <%@include file="/header.jspf"%>
-<!-- styles -->
 <link href="${path}/css/login.css" rel="stylesheet">
 <script>
 	if (top != self) {
@@ -17,15 +13,13 @@
 </script>
 </head>
 <body>
-
-	<div id="_head">
+	<div class="header">
 		<h1>监控系统</h1>
 	</div>
-
 	<div>
 		<div class="row">
 			<div class="span9">
-				<form class="form-horizontal well" id="loginForm">
+				<form class="form-horizontal login_form">
 					<div class="row">
 						<div class="control-group span9">
 							<div class="controls">
@@ -47,16 +41,14 @@
 					<div class="row">
 						<div class="control-group span9">
 							<div class="controls">
-								<button type="button" id="loginBtn"
-									class="button-large button button-info">登陆</button>
+								<button type="button"
+									class="button-large button button-info login_btn">登陆</button>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-
-
 	</div>
 
 

@@ -1,6 +1,6 @@
 $(function() {
 	$("#username").focus();
-	$("#loginBtn").bind('click', login);// 注册按钮点击事件
+	$(".login_btn").bind('click', login);// 注册按钮点击事件
 });
 
 function login() {

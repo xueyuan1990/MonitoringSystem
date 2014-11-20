@@ -1,19 +1,23 @@
 html,body{
      overflow:hidden;
 }
-#_head span{
+.header span{
 	color: #FFF;
 	line-height: 50px;
 	font-size:14px;
 }
-#_head span a:VISITED,#_head span a:LINK{
+.header span a:VISITED,.header span a:LINK{
 	color: #FFF;
 	text-decoration: none;
 }
-#_head span a{
+.header span a{
 	color: #FFF;
 }
-#_menu {
+
+.pull-left{
+	margin-left: 46%;
+}
+.sidebar {
 	float: left;
 	width: 190px;/*172px;*/
 	height: 460px;
@@ -27,7 +31,8 @@ html,body{
 	border-bottom: 2px solid #eee;
 }
 
-#_content {
+
+.content {
 	margin-left: 240px;
 	/*margin-right: 20px;*/
 	background: #f5f5f5;
@@ -38,11 +43,11 @@ html,body{
 	border-right: 2px solid #eee;
 	border-bottom: 2px solid #eee;
 }
-#_menu li {
+.sidebar li {
 	border-bottom: 1px dashed #eee;
 }
 
-#_menu li>a {
+.sidebar li>a {
 	font-size: 14px;
 	line-height: 20px;
 	padding: 15px 50px;
@@ -55,16 +60,22 @@ html,body{
 	font-weight: bold;
 }
 
-#_menu li>a:HOVER {
+.sidebar li>a:HOVER {
 	color: #555;
 	font-weight: bold;
 }
 
-#_menu li a.selected {
+.sidebar li a.selected {
 	color: #555;
 	font-weight: bold;
 }
 /***去除菜单连接的下划线****/
-#_menu a: visited, #_menu a:link {
+.sidebar a: visited, .sidebar a:link {
 	text-decoration: none;
+}
+
+iframe{
+	 width:100%;
+	 height:100%;
+	 border:0;
 }

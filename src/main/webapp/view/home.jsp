@@ -1,32 +1,31 @@
-<%@ page language="java" import="java.util.*"
-	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-	isELIgnored="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>主页</title>
 <%@include file="/header.jspf"%>
 <link href="${path}/css/home.css" rel="stylesheet">
 </head>
 <body>
-	<div class="row">
+	<!-- 搜索框-->
 		<div>
-			<form class="well" id="searchForm">
-				<input type="text" style="width: 200px;" name="time" id="time"
+			<form class="well">
+				<input type="text" name="time" id="time"
 					class="calendar calendar-time control-text search-query"
-					readonly="readonly"/>
+					readonly="readonly" />
 				<button id="searchBtn" type="button" class="button button-info">
 					<i class="icon-search icon-white"></i>&nbsp;搜索
 				</button>
 			</form>
 		</div>
-	</div>
-	<div class="group">
-	<h2>&nbsp;&nbsp;&nbsp;&nbsp;跟踪服务器</h2>
-		<div id="trackerGroup">
-		</div>
-	</div>
-	<div id="total" class="row-fluid show-grid"></div>
+
+		<!-- tracker group -->
+		<div class="row-fluid show-grid"><div id="trackerGroup" class="group"></div></div>
+
+		<!-- storage group -->
+		<div id="storageGroup" class="row-fluid show-grid"></div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>
 	<script src="${path}/js/home.js"></script>
 </body>

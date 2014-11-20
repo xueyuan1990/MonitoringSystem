@@ -8,15 +8,50 @@ div.group{
 	margin-bottom:10px;
 	overflow:hidden;
 }
-div.pie{
-	float:left;
+
+/*  tracker   */
+div.tracker {
+	float: left;
+	width: 300px;
+	height: 200px;
 }
-.well{
+
+div.img {
+	height: 128px;
+	width: 128px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+div.tracker_ip {
+	text-align: center;
+}
+
+/*  storage 饼图  */
+div.storage{
+	float:left;
+	width: 300px;
+	height: 370px;
+}
+
+
+div.pie {
+	height: 300px;
+	width: 300px;
+}
+
+div.pie_id{
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+div.pie_ip{
+	text-align: center;
+	margin-top: 0px;
 	margin-bottom: 0px;
 }
 .pie path, .pie tspan, .rvml {
-    cursor: pointer;
-}
-.trunkip span{
-	width:150px;
+	cursor: pointer;
 }
