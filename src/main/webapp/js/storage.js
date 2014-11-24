@@ -10,7 +10,9 @@ $(function() {
 	$("#searchBtn").trigger('click');
 });
 
-// 获取URL参数
+/*
+ * 获取URL参数
+ */
 function GetRequest() {
 	var url = location.search; // 获取url中"?"符后的字串
 	var theRequest = new Object();
@@ -23,8 +25,9 @@ function GetRequest() {
 	}
 	return theRequest;
 }
-
-// 在table中显示
+/*
+ * 在表格中显示storage的详细信息
+ */
 function showInTable() {
 	var Request = new Object();
 	Request = GetRequest();
@@ -38,7 +41,7 @@ function showInTable() {
 		searchOneStorage(1, 1, 1);
 	}
 	$('#storagetable').empty();
-	$('#storagetable').append('<div id="grid"></div>');// 表格
+	$('#storagetable').append('<div id="grid"></div>');
 	var id = 0;
 	var columns = [
 			{
@@ -86,8 +89,10 @@ function showInTable() {
 				dataIndex : 'serverThreshold',
 				elCls : 'right',
 				editor : {
-					xtype : 'number',// 可编辑，为数字
-					rules : {required : true}
+					xtype : 'number',
+					rules : {
+						required : true
+					}
 				}
 			},
 			{
@@ -105,13 +110,13 @@ function showInTable() {
 				dataIndex : 'show',
 				elCls : 'center',
 				renderer : function() {
-					return '<span class="grid-command" days="1">1天</span><span class="grid-command" days="7">7天</span><span class="grid-command" days="30">30天</span><span class="grid-command" days="90">90天</span>';// groupId,serverId指示点击后查看的服务器
+					return '<span class="grid-command" days="1">1天</span><span class="grid-command" days="7">7天</span><span class="grid-command" days="30">30天</span><span class="grid-command" days="90">90天</span>';
 				}
 			} ];
 	var editing = new BUI.Grid.Plugins.CellEditing({
 		triggerSelected : true,
-		listeners:{
-			accept:function(ev){
+		listeners : {
+			accept : function(ev) {
 				$.ajax({
 					url : path + '/system/storage/updateServerThreshold.do',
 					type : 'POST',
@@ -129,31 +134,27 @@ function showInTable() {
 				});
 			}
 		}
-	// 触发编辑的时候是否选中行
 	});
 
 	var store = new BUI.Data.Store({
 		url : path + '/system/storage/selectAllStorage.do',
-		autoLoad : true, // 自动加载数据
-		params : { // 配置初始请求的参数
+		autoLoad : true,
+		params : {
 			time : $('#time').val(),
 			groupId : groupId,
 			serverId : serverId
 		},
 		pageSize : 10
-	// 配置分页数目
 	});
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
-		forceFit : true, // 列宽按百分比自适应
-		 height : $(window).height()-$('#storagetable').offset().top-5,//$("body").height()-17-496,
+		forceFit : true,
+		height : $(window).height() - $('#storagetable').offset().top - 5,
 		columns : columns,
-//		loadMask : true, // 加载数据时显示屏蔽层
-		plugins : [ editing,BUI.Grid.Plugins.AutoFit ],
-		store : store, // 底部工具栏
+		plugins : [ editing, BUI.Grid.Plugins.AutoFit ],
+		store : store,
 		bbar : {
 			pagingBar : true
-		// 表明包含分页栏
 		},
 		listeners : {
 			rowclick : function(ev) {
@@ -171,22 +172,14 @@ function showInTable() {
 	grid.render();
 }
 
-// 趋势图
-function formatXAxis(year, month, date) {
-
-	if (date == 1 && month == 1) {
-		return year + "年";
-	} else if (date == 1) {
-		return month + "月";
-	} else {
-		return month + "." + date;
-	}
-}
+/*
+ * 趋势图
+ */
 function searchOneStorage(groupId, serverId, days) {
 	$('#graph').empty();
-	var now = new Date();// 获取系统当前时间
+	var now = new Date();
 	var endTime = now;
-	var dayStart = new Date(now.getTime() - (now.getHours() * 3600000 + now.getMinutes() * 60000 + now.getSeconds() * 1000));// 当天开始时间
+	var dayStart = new Date(now.getTime() - (now.getHours() * 3600000 + now.getMinutes() * 60000 + now.getSeconds() * 1000));
 	var startTime = new Date(dayStart.getTime() - (days - 1) * 24 * 3600 * 1000);
 	var startTimeFormat;
 	var endTimeFormat;
@@ -197,7 +190,6 @@ function searchOneStorage(groupId, serverId, days) {
 		startTimeFormat = startTime.getFullYear() + "-" + (startTime.getMonth() + 1) + "-" + startTime.getDate() + " 00:00";
 		endTimeFormat = endTime.getFullYear() + "-" + (endTime.getMonth() + 1) + "-" + endTime.getDate() + " 00:00";
 	}
-	// 1天按小时显示，7天和30天按天显示，90天？
 	var store = new BUI.Data.Store({
 		url : path + '/system/storage/selectStoragePeriod.do',
 		autoLoad : false,
@@ -210,19 +202,19 @@ function searchOneStorage(groupId, serverId, days) {
 		}
 	});
 	var categories = new Array();
-	if (days == 1) {// 按小时
+	if (days == 1) {// 1天按小时显示
 		categories = [
 				new Date(startTime.getTime()).getFullYear() + "." + (new Date(startTime.getTime()).getMonth() + 1) + "."
 						+ new Date(startTime.getTime()).getDate(), '1时', '2时', '3时', '4时', '5时', '6时', '7时', '8时', '9时', '10时', '11时', '12时', '13时',
 				'14时', '15时', '16时', '17时', '18时', '19时', '20时', '21时', '22时', '23时' ];
-	} else if (days == 7 || days == 30) {// 按天
+	} else if (days == 7 || days == 30) {// 7天和30天按天显示
 		for (var i = 0; i < days; i++) {
 			var year = new Date(startTime.getTime() + i * 24 * 3600 * 1000).getFullYear();
 			var month = (new Date(startTime.getTime() + i * 24 * 3600 * 1000).getMonth() + 1);
 			var date = new Date(startTime.getTime() + i * 24 * 3600 * 1000).getDate();
 			categories[i] = formatXAxis(year, month, date);
 		}
-	} else if (days == 90) {// 每隔5天一次采样
+	} else if (days == 90) {// 90天按每五天显示
 		var j = 0;
 		for (var i = 0; i < days; i++) {
 			var year = new Date(startTime.getTime() + i * 24 * 3600 * 1000).getFullYear();
@@ -238,15 +230,14 @@ function searchOneStorage(groupId, serverId, days) {
 	var chart = new AChart({
 		id : 'graph',
 		height : 308,
-		forceFit : true, //自适应宽度
+		forceFit : true, // 自适应宽度
 		plotCfg : {
 			margin : [ 50, 50, 40 ]
-		// 画板的边距
 		},
 		title : {
 			text : groupId + '组' + serverId + '号服务器 ' + days + '天内趋势图'
 		},
-//		colors : ["#0590FA","#4DCEFF","#BBE3A7","#FFB65D"],
+		// colors : ["#0590FA","#4DCEFF","#BBE3A7","#FFB65D"],
 		xAxis : {
 			categories : categories
 		},
@@ -284,31 +275,31 @@ function searchOneStorage(groupId, serverId, days) {
 		// 出现基准线
 		},
 		legend : {
-			dy : -40, // 跟绘图区域的偏移y
+			dy : -40,
 			dx : 10,
-			align : 'top',// top,left,right,bottom(默认)
-			layout : 'vertical',// 默认 horizontal,vertical
-			back : { // 背景的配置信息，等同于shape的attrs
-				fill : '#efefef'// stroke : null 清除边框
+			align : 'top',
+			layout : 'vertical',
+			back : {
+				fill : '#efefef'
 			}
 		},
 		series : [ {
 			name : '已用容量(M)',
 			yField : 'usedStorage'
-		} ,{
+		}, {
 			name : '未用容量(M)',
 			yField : 'freeStorage'
 		}, {
-			type:'column',
-			name:'上传文件数(个)',
-			yAxis:1,//使用第二个坐标轴，索引为1
-			yField:'successUploadCount'
-		},{
-			type:'column',
-			name:'下载文件数(个)',
-			yAxis:1,//使用第二个坐标轴，索引为1
-			yField:'successDownloadCount'
-		}]
+			type : 'column',
+			name : '上传文件数(个)',
+			yAxis : 1,// 使用第二个坐标轴，索引为1
+			yField : 'successUploadCount'
+		}, {
+			type : 'column',
+			name : '下载文件数(个)',
+			yAxis : 1,// 使用第二个坐标轴，索引为1
+			yField : 'successDownloadCount'
+		} ]
 	});
 
 	chart.render();
@@ -319,4 +310,17 @@ function searchOneStorage(groupId, serverId, days) {
 	});
 	store.load();
 
+}
+/*
+ * 设置日期显示样式
+ */
+function formatXAxis(year, month, date) {
+
+	if (date == 1 && month == 1) {
+		return year + "年";
+	} else if (date == 1) {
+		return month + "月";
+	} else {
+		return month + "." + date;
+	}
 }

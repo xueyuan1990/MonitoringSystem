@@ -12,10 +12,15 @@ $(function() {
 
 	setContentHeight();
 });
+/*
+ * window resize时，设置content高度
+ */
 $(window).resize(function() {
 	setContentHeight();
 });
-// 设置内容高度
+/*
+ * 设置content高度
+ */
 function setContentHeight() {
 	var h1 = $(window).height();
 	var h2 = $('.content').offset().top;

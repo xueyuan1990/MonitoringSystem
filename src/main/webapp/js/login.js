@@ -1,11 +1,11 @@
 $(function() {
 	$("#username").focus();
-	$(".login_btn").bind('click', login);// 注册按钮点击事件
+	$(".login_btn").bind('click', login);
 });
 
 function login() {
 	$.ajax({
-		url : path+'/login/loginCheck.do',
+		url : path + '/login/loginCheck.do',
 		type : 'POST',
 		dataType : 'json',
 		data : {
@@ -14,12 +14,11 @@ function login() {
 		},
 		success : function(response) {
 			if (response.code == 200) {
-				window.location.href = path+'/view/main.jsp';
+				window.location.href = path + '/view/main.jsp';
 			} else {
 				BUI.Message.Alert(response.message, 'error');
 			}
 		}
 
 	});
-	//return false;
 }

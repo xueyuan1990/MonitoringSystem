@@ -1,14 +1,16 @@
 $(function() {
-	$("#searchBtn").bind('click', showUserInTable);// 如果点击按钮，则获取store并显示
+	$("#searchBtn").bind('click', showUserInTable);
 	$("#searchBtn").trigger('click');
 });
 
-// 在table中显示
+/*
+ * 在表格中显示user的详细信息
+ */
 function showUserInTable() {
 	var username = $('#username').val();
 	$("#username").val("");
 	$('#usertable').empty();
-	$('#usertable').append('<div id="grid"></div>');// 表格
+	$('#usertable').append('<div id="grid"></div>');
 	var id = 0;
 	var columns = [ {
 		title : '用户名',
@@ -33,14 +35,15 @@ function showUserInTable() {
 
 	var store = new BUI.Data.Store({
 		url : path + '/system/user/selectUser.do',
-		autoLoad : true, // 自动加载数据
-		params : { // 配置初始请求的参数
+		autoLoad : true, 
+		params : { 
 			username : username
 		},
 		pageSize : 20
-	// 配置分页数目
 	});
-	// delete user
+	/*
+	 * 删除用户
+	 */
 	function deleteUser(the) {
 		var username = the.username;
 		BUI.Message.Confirm("确定要删除用户  " + username, function() {
@@ -53,7 +56,7 @@ function showUserInTable() {
 				},
 				success : function(response) {
 					if (response.code != 200) {
-						BUI.Message.Alert(response.message,  'error');
+						BUI.Message.Alert(response.message, 'error');
 					} else {
 						BUI.Message.Alert(response.message, 'success');
 					}
@@ -86,10 +89,9 @@ function showUserInTable() {
 							},
 							success : function(response) {
 								if (response.code != 200) {
-									BUI.Message
-											.Alert(response.message, 'error');
+									BUI.Message.Alert(response.message, 'error');
 								} else {
-									BUI.Message.Alert(response.message,	'success');
+									BUI.Message.Alert(response.message, 'success');
 								}
 								edtor.accept();
 								store.load();
@@ -103,15 +105,13 @@ function showUserInTable() {
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
 		forceFit : true, // 列宽按百分比自适应
-		 height : $(window).height()-$('#usertable').offset().top-5,
-		// height : 600,
-		// width:1636,
+		height : $(window).height() - $('#usertable').offset().top - 5,
 		columns : columns,
 		bbar : {
 			pagingBar : true
 		// 表明包含分页栏
 		},
-		tbar : { // 添加、删除
+		tbar : {
 			items : [ {
 				btnCls : 'button button-small',
 				text : '<i class="icon-plus"></i>添加',
@@ -120,13 +120,13 @@ function showUserInTable() {
 						var newData = {
 							username : ''
 						};
-						editing.add(newData); // 添加记录后，直接编辑
+						editing.add(newData);
 					}
 				}
 			} ]
 		},
-		plugins : [ editing,BUI.Grid.Plugins.AutoFit ],
-		store : store, // 底部工具栏
+		plugins : [ editing, BUI.Grid.Plugins.AutoFit ],
+		store : store, 
 		listeners : {
 			rowclick : function(ev) {
 				if ($(ev.domTarget).hasClass('grid-command')) {
