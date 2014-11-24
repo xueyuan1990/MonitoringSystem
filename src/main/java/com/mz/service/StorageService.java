@@ -1,13 +1,20 @@
 package com.mz.service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,29 +29,36 @@ import com.mz.entity.Storage;
  **/
 @Service
 public class StorageService {
+    static Logger logger = LoggerFactory.getLogger(StorageService.class);
     @Autowired
-    SqlSession sqlSession;
+    SqlSession    sqlSession;
 
 
     /**
-     * 查询某一时刻所有服务器状态，时间格式为：2014-09-27 00:50:00
+     * 查询某一时刻所有服务器信息，时间格式为：2014-09-27 00:50:00
      * 
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> selectAllStorage(String time, int start, int limit) {
+    public List<Storage> selectAllStorageByPage(String time, int start, int limit) {
         List<Storage> list = new ArrayList<Storage>();
         time = getFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("start", start);
         params.put("limit", limit);
-        list = sqlSession.selectList("storage.selectAllStorage", params);
+        list = sqlSession.selectList("storage.selectAllStorageByPage", params);
 
         return list;
     }
 
 
+    /**
+     * 查询某一时刻某台服务器信息，时间格式为：2014-09-27 00:50:00
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
     public List<Storage> selectStorageById(int groupId, int serverId, String time) {
         List<Storage> list = new ArrayList<Storage>();
         time = getFormatTime(time);
@@ -58,7 +72,7 @@ public class StorageService {
 
 
     /**
-     * 查总数
+     * 查服务器总数
      * 
      * @author xueyuan
      * @since 1.0
@@ -73,7 +87,7 @@ public class StorageService {
 
 
     /**
-     * 查询某一时刻某组服务器状态
+     * 查询某一时刻某组服务器信息
      * 
      * @author xueyuan
      * @since 1.0
@@ -91,7 +105,7 @@ public class StorageService {
 
 
     /**
-     * 设置阀值
+     * 设置服务器空闲阀值，当服务器空闲容量小于该阀值时会触发报警
      * 
      * @author xueyuan
      * @since 1.0
@@ -111,13 +125,13 @@ public class StorageService {
 
 
     /**
-     * 某段时间内一台服务器的信息
+     * 某段时间内某台服务器的信息，用来查看服务器容量变化趋势
      * 
      * @author xueyuan
      * @since 1.0
      */
     public List<Storage> selectStoragePeriod(int groupId, int serverId, String startTime,
-                                             String endTime, int days) throws Exception {
+                                             String endTime, int days) {
         List<Storage> list = new ArrayList<Storage>();
         endTime = getFormatTime(endTime);
         startTime = getFormatTime(startTime);
@@ -128,13 +142,11 @@ public class StorageService {
         params.put("endTime", endTime);
         list = sqlSession.selectList("storage.selectStoragePeriod", params);
         String subString = "";
-        int timeInterval = 1;
+
         if (days == 1) {
             subString = ":00:00";//小时
-            timeInterval = 3600 * 1000;
         } else {
             subString = "00:00:00";//天
-            timeInterval = 24 * 3600 * 1000;
         }
         //去掉非整小时或非整天的采样点
         int j = 0;
@@ -146,13 +158,8 @@ public class StorageService {
             }
         }
         // 补充为采样时间点数据
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long startTimeLong = dateFormat.parse(startTime).getTime();
-        long endTimeLong = dateFormat.parse(endTime).getTime();
-        int size = (int) ((endTimeLong - startTimeLong) / timeInterval + 1);
-        if (size != list.size()) {
-            list = checkStoragePeriod(list, groupId, serverId, startTime, endTime, days);
-        }
+        list = checkStoragePeriod(list, groupId, serverId, startTime, endTime, days);
+
         if (days == 90) {//5天一次
             int i = 0;
             while (i < list.size()) {
@@ -169,23 +176,38 @@ public class StorageService {
 
 
     /**
-     * 判断序列中是否是相邻日期，如果不是，则补全采样点
+     * 判断序列中时间是否连续，如果不是，则补全采样点，使序列成为时间连续的
      * 
      * @author xueyuan
      * @since 1.0
      */
     private List<Storage> checkStoragePeriod(List<Storage> list, int groupId, int serverId,
-                                             String startTime, String endTime, int days)
-            throws Exception {
+                                             String startTime, String endTime, int days) {
         if (list == null) {
             list = new ArrayList<Storage>();
         }
+        int timeInterval = 1;
+        if (days == 1) {
+            timeInterval = 3600 * 1000;
+        } else {
+            timeInterval = 24 * 3600 * 1000;
+        }
+
         startTime = getFormatTime(startTime);
         endTime = getFormatTime(endTime);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long startTimeLong = dateFormat.parse(startTime).getTime();
-        long endTimeLong = dateFormat.parse(endTime).getTime();//1分钟=1000*60毫秒
-
+        long startTimeLong = 0;
+        long endTimeLong = 0;
+        try {
+            startTimeLong = dateFormat.parse(startTime).getTime();
+            endTimeLong = dateFormat.parse(endTime).getTime();//1分钟=1000*60毫秒
+        } catch (ParseException e) {
+            logger.error(e.getMessage(), e);
+        }
+        int size = (int) ((endTimeLong - startTimeLong) / timeInterval + 1);
+        if (size == list.size() || startTimeLong == 0 || endTimeLong == 0) {
+            return list;
+        }
         int i = 0;
         String timeInList = "";
         int free = 0;
@@ -196,7 +218,6 @@ public class StorageService {
         while (startTimeLong <= endTimeLong) {
             if (i <= list.size() - 1) {
                 timeInList = list.get(i).getTime();
-                //                free = list.get(i).getFreeStorage();//容量情况
             }
             String timeOutList = dateFormat.format(new Date(startTimeLong)).toString();
             if (!timeInList.equals(timeOutList)) {
@@ -291,7 +312,7 @@ public class StorageService {
 
 
     /**
-     * 空闲容量低于阀值，报警
+     * storage空闲容量低于阀值，报警
      * 
      * @author xueyuan
      * @since 1.0
@@ -305,4 +326,65 @@ public class StorageService {
         return list;
     }
 
+
+    /**
+     * Nginx URL无法访问时，报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public List<Storage> alertNginx() {
+        List<Storage> list = new ArrayList<Storage>();
+        String time = getFormatTime("");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        list = sqlSession.selectList("storage.selectAllStorage", params);
+        if (list == null) {
+            return list;
+        }
+        Iterator<Storage> it = list.iterator();
+        while (it.hasNext()) {
+            Storage storage = it.next();
+            String ip = storage.getIpAddr().split(" ")[0];
+            if (getHttpCode(ip)) {//如果访问成功，则去除
+                it.remove();
+            }
+        }
+        return list;
+
+    }
+
+
+    /**
+     * 该URL是否可访问，访问成功返回true，否则false
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    private boolean getHttpCode(String surl) {
+        if (surl == null) {
+            return false;
+        }
+        if (!surl.startsWith("http://")) {
+            surl = "http://" + surl;
+        }
+        int code = 0;
+        String msg = "";
+        try {
+            URL url = new URL(surl);
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+            httpUrlConnection.setConnectTimeout(3000);
+            httpUrlConnection.setReadTimeout(3000);
+            httpUrlConnection.connect();
+            code = new Integer(httpUrlConnection.getResponseCode());//200
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        if (code == 200) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

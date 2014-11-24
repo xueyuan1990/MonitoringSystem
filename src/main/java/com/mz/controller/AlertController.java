@@ -40,47 +40,48 @@ public class AlertController {
     private TrackerService trackerService;
 
 
-    public String alert(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> getAlertInfo(HttpServletRequest request, HttpServletResponse response) {
         List<Tracker> trackerListOffline = new ArrayList<Tracker>();
         List<Storage> storageListOffline = new ArrayList<Storage>();
         List<Storage> storageListFreeStorage = new ArrayList<Storage>();
+        List<Storage> storageListNginx = new ArrayList<Storage>();
         trackerListOffline = trackerService.alertOffline();
         storageListOffline = storageService.alertOffline();
         storageListFreeStorage = storageService.alertFreeStorage();
+        storageListNginx = storageService.alertNginx();
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> alertInfoMap = new HashMap<String, Object>();
         List codeList = new ArrayList();
-        List messageList = new ArrayList();
         Map<String, String> valueMap = new HashMap<String, String>();
-
-        if (trackerListOffline.size() == 0 && storageListOffline.size() == 0
-                && storageListFreeStorage.size() == 0) {
-            return "";
+        if ((trackerListOffline == null || trackerListOffline.size() == 0)
+                && (storageListOffline == null || storageListOffline.size() == 0)
+                && (storageListFreeStorage == null || storageListFreeStorage.size() == 0)
+                && (storageListNginx == null || storageListNginx.size() == 0)) {
+            alertInfoMap.put("code", 200);
+            alertInfoMap.put("message", "状态正常");
+            alertInfoMap.put("value", "");
         } else {
-            if (trackerListOffline.size() != 0) {
+            if (trackerListOffline != null && trackerListOffline.size() != 0) {
                 codeList.add(1101);//1101:跟踪服务器 OFFLINE
-                messageList.add("跟踪服务器-OFFLINE");
                 Iterator<Tracker> it = trackerListOffline.iterator();
                 while (it.hasNext()) {
                     Tracker tracker = it.next();
                     int trackerId = tracker.getTrackerId();
-                    valueMap.put("Tracker " + trackerId, "Tracker OFFLINE");
+                    valueMap.put("Tracker " + trackerId, "OFFLINE");
                 }
             }
-            if (storageListOffline.size() != 0) {
+            if (storageListOffline != null && storageListOffline.size() != 0) {
                 codeList.add(1201);//1201:存储服务器 OFFLINE
-                messageList.add("存储服务器-OFFLINE");
                 Iterator<Storage> it = storageListOffline.iterator();
                 while (it.hasNext()) {
                     Storage storage = it.next();
                     int groupId = storage.getGroupId();
                     int serverId = storage.getServerId();
-                    valueMap.put("Storage " + groupId + "-" + serverId, "Storage OFFLINE");
+                    valueMap.put("Storage " + groupId + "-" + serverId, "OFFLINE");
                 }
             }
-            if (storageListFreeStorage.size() != 0) {
+            if (storageListFreeStorage != null && storageListFreeStorage.size() != 0) {
                 codeList.add(1202);//1202:存储服务器 空闲容量低于阀值
-                messageList.add("存储服务器-空闲容量低于阀值");
                 Iterator<Storage> it = storageListFreeStorage.iterator();
                 while (it.hasNext()) {
                     Storage storage = it.next();
@@ -90,42 +91,57 @@ public class AlertController {
                     int serverThreshold = storage.getServerThreshold();
                     String key = "Storage " + groupId + "-" + serverId;
                     if (valueMap.containsKey(key)) {
-                        String value = valueMap.get(key) + "," + "serverThreshold = "
-                                + serverThreshold;
+                        String value = valueMap.get(key) + "," + "空闲容量低于阀值 " + serverThreshold;
                         valueMap.put(key, value);
                     } else {
-                        valueMap.put(key, "serverThreshold = " + serverThreshold);
+                        valueMap.put(key, "空闲容量低于阀值 " + serverThreshold);
                     }
                 }
             }
-            map.put("code", codeList);
-            map.put("message", messageList);
-            map.put("value", valueMap);
+            if (storageListNginx != null && storageListNginx.size() != 0) {
+                codeList.add(1203);//1203:存储服务器 Nginx失效
+                Iterator<Storage> it = storageListNginx.iterator();
+                while (it.hasNext()) {
+                    Storage storage = it.next();
+                    int groupId = storage.getGroupId();
+                    int serverId = storage.getServerId();
+                    String ip = storage.getIpAddr().split(" ")[0];
+                    String key = "Storage " + groupId + "-" + serverId;
+                    if (valueMap.containsKey(key)) {
+                        String value = valueMap.get(key) + "," + "访问Nginx(" + ip + ")失败";
+                        valueMap.put(key, value);
+                    } else {
+                        valueMap.put(key, "访问Nginx(" + ip + ")失败");
+                    }
+                }
+
+            }
+            alertInfoMap.put("code", codeList);
+            alertInfoMap.put("message", "状态异常");
+            alertInfoMap.put("value", valueMap);
         }
-        return BaseController.getJson(logger, response, map);
+        return alertInfoMap;
 
     }
 
 
     @RequestMapping("/alert")
     public void sendEmail(HttpServletRequest request, HttpServletResponse response) {
-        String alertInfo = alert(request, response);
         Date now = new Date();
         boolean flag = false;//为true时发送200
         if (lastTimeOfSendEmail != null
                 && (now.getTime() - lastTimeOfSendEmail.getTime()) < 24 * 3600 * 1000) {
             flag = true;
         }
-        Map map = new HashMap();
-        map.put("code", 200);
-        map.put("message", "");
-        map.put("value", "");
-        if (alertInfo.length() == 0 || (info.equals(alertInfo) && flag)) {//无报警信息，或相等且距离上次发送email在24小时内,发code=200
-            BaseController.writeJson(logger, response, map);
+        Map<String, Object> alertInfoMap = getAlertInfo(request, response);
+        String alertInfo = BaseController.getJson(logger, response, alertInfoMap);
+
+        if (info != null && info.equals(alertInfo) && flag) {//相等且距离上次发送email在24小时内,发code=200
+            alertInfoMap.put("code", 200);
         } else {
             info = alertInfo;
             lastTimeOfSendEmail = now;
-            BaseController.writeJson(logger, response, info);
         }
+        BaseController.writeJson(logger, response, alertInfoMap);
     }
 }

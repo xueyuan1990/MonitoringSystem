@@ -48,7 +48,7 @@ public class StorageController {
         int start = Integer.parseInt(request.getParameter("start"));
         int limit = Integer.parseInt(request.getParameter("limit"));
         if (groupId == -1 && serverId == -1) {
-            list = storageService.selectAllStorage(time, start, limit);
+            list = storageService.selectAllStorageByPage(time, start, limit);
             count = storageService.countStorage(time);
         } else {
             list = storageService.selectStorageById(groupId, serverId, time);
@@ -137,11 +137,7 @@ public class StorageController {
                                     HttpServletResponse response) {
 
         List<Storage> list = new ArrayList<Storage>();
-        try {
-            list = storageService.selectStoragePeriod(groupId, serverId, startTime, endTime, days);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
+        list = storageService.selectStoragePeriod(groupId, serverId, startTime, endTime, days);
         //json
         //        Map<String, Object> map = new HashMap<String, Object>();
         //        map.put("code", 200);

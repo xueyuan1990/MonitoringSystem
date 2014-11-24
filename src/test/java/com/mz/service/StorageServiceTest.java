@@ -173,8 +173,24 @@ public class StorageServiceTest extends JTester {
             int fs = storage.getFreeStorage();
             int th = storage.getServerThreshold();
             want.number(fs).isLessThan(th);
-
         }
-
     }
+
+    //    @Test
+    //    @DbFit(when = "StorageService.alertNginx.when.wiki")
+    //    public void testAlertNginx() {
+    //        List<Storage> list = new ArrayList<Storage>();
+    //        list = storageService.alertNginx();
+    //        want.list(list).sizeEq(1);
+    //        want.object(list.get(0)).propertyMatch("ipAddr", the.string().contains("172.16.3.17"));
+    //
+    //    }
+
+    //    @Test
+    //    public void testA() {
+    //        String surl = "http://172.16.3.18";
+    //        boolean flag = false;
+    //        flag = storageService.getHttpCode(surl);
+    //        want.bool(flag).is(false);
+    //    }
 }

@@ -51,7 +51,8 @@ public class EncodingFilter implements Filter {
 
 
     @Override
-    public void init(FilterConfig fConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
 }
