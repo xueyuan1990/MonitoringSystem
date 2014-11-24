@@ -20,8 +20,8 @@
 			</button>
 		</form>
 	</div>
-	<div id="part2"></div>
-	<div id="part1"></div>
+	<div id="graph"></div>
+	<div id="storagetable"></div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>
 	<script src="${path}/js/storage.js"></script>
 </body>

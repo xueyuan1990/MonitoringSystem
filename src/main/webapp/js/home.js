@@ -19,8 +19,9 @@ $(function() {
 });
 // showTracker
 function showTracker() {
-	$("#trackerGroup").empty();
-	$("#trackerGroup").append('<h2>&nbsp;&nbsp;&nbsp;&nbsp;跟踪服务器</h2>');
+	var jTrackerGroup=$("#trackerGroup");
+	jTrackerGroup.empty();
+	jTrackerGroup.append('<h2>&nbsp;&nbsp;&nbsp;&nbsp;跟踪服务器</h2>');
 $.ajax({
 	url:path+'/system/tracker/selectAllTracker.do',
 	type:'POST',
@@ -38,9 +39,10 @@ $.ajax({
 			}else{
 				image=path +"/image/trackerOffline.jpg";
 			}
-			$("#trackerGroup").append('<div class="tracker" id="'+trackerId+'"></div>');
-			$("#"+trackerId).append('<div class="img"><img src="'+image+'" width="128" height="128" alt="tracker"/></div>');//图片
-			$("#"+trackerId).append('<div class="tracker_ip" ><h3>'+trackerIp+'</h3></div>');//ip
+			jTrackerGroup.append('<div class="tracker" id="'+trackerId+'"></div>');
+			var jTrackerId =$("#"+trackerId);
+			jTrackerId.append('<div class="img"><img src="'+image+'" width="128" height="128" alt="tracker"/></div>');//图片
+			jTrackerId.append('<div class="tracker_ip" ><h3>'+trackerIp+'</h3></div>');//ip
 			
 			
 		}
@@ -102,10 +104,11 @@ function showInPie(datas) {
 		var pieIp = data.ipAddr.split(" ")[0];
 		
 		$('#group' + data.groupId).append('<div class="storage" id="storage'+pieId+'"></div>');
-		$("#storage"+pieId).append('<div class="pie_id" ><h3>'+pieId+'</h3></div>');//ip
-		$("#storage"+pieId).append(
+		var jStoragePieId =$("#storage"+pieId); 
+		jStoragePieId.append('<div class="pie_id" ><h3>'+pieId+'</h3></div>');//ip
+		jStoragePieId.append(
 				'<div data-groupId="' + data.groupId + '" data-serverId="' + data.serverId + '" id="pie' + pieId + '" class="pie"></div>');// .pie已添加click事件
-		$("#storage"+pieId).append('<div class="pie_ip" ><h3>'+pieIp+'</h3></div>');//ip
+		jStoragePieId.append('<div class="pie_ip" ><h3>'+pieIp+'</h3></div>');//ip
 		
 		
 		

@@ -24,7 +24,7 @@
 
 	</div>
 
-	<div id="part1"></div>
+	<div id="usertable"></div>
 	<div id="content" class="hide">
 		<form class="form-vertical" method="post">
 			<div class="row">

@@ -37,8 +37,8 @@ function showInTable() {
 		serverId = -1;
 		searchOneStorage(1, 1, 1);
 	}
-	$('#part1').empty();
-	$('#part1').append('<div id="grid"></div>');// 表格
+	$('#storagetable').empty();
+	$('#storagetable').append('<div id="grid"></div>');// 表格
 	var id = 0;
 	var columns = [
 			{
@@ -146,7 +146,7 @@ function showInTable() {
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
 		forceFit : true, // 列宽按百分比自适应
-		 height : $(window).height()-$('#part1').offset().top-5,//$("body").height()-17-496,
+		 height : $(window).height()-$('#storagetable').offset().top-5,//$("body").height()-17-496,
 		columns : columns,
 //		loadMask : true, // 加载数据时显示屏蔽层
 		plugins : [ editing,BUI.Grid.Plugins.AutoFit ],
@@ -183,7 +183,7 @@ function formatXAxis(year, month, date) {
 	}
 }
 function searchOneStorage(groupId, serverId, days) {
-	$('#part2').empty();
+	$('#graph').empty();
 	var now = new Date();// 获取系统当前时间
 	var endTime = now;
 	var dayStart = new Date(now.getTime() - (now.getHours() * 3600000 + now.getMinutes() * 60000 + now.getSeconds() * 1000));// 当天开始时间
@@ -236,7 +236,7 @@ function searchOneStorage(groupId, serverId, days) {
 		}
 	}
 	var chart = new AChart({
-		id : 'part2',
+		id : 'graph',
 		height : 308,
 		forceFit : true, //自适应宽度
 		plotCfg : {

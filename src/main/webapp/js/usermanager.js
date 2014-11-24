@@ -7,8 +7,8 @@ $(function() {
 function showUserInTable() {
 	var username = $('#username').val();
 	$("#username").val("");
-	$('#part1').empty();
-	$('#part1').append('<div id="grid"></div>');// 表格
+	$('#usertable').empty();
+	$('#usertable').append('<div id="grid"></div>');// 表格
 	var id = 0;
 	var columns = [ {
 		title : '用户名',
@@ -103,7 +103,7 @@ function showUserInTable() {
 	var grid = new BUI.Grid.Grid({
 		render : '#grid',
 		forceFit : true, // 列宽按百分比自适应
-		 height : $(window).height()-$('#part1').offset().top-5,
+		 height : $(window).height()-$('#usertable').offset().top-5,
 		// height : 600,
 		// width:1636,
 		columns : columns,
