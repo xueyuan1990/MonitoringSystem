@@ -10,22 +10,24 @@
 </head>
 <body>
 	<!-- 搜索框-->
-		<div>
-			<form class="well">
-				<input type="text" name="time" id="time"
-					class="calendar calendar-time control-text search-query"
-					readonly="readonly" />
-				<button id="searchBtn" type="button" class="button button-info">
-					<i class="icon-search icon-white"></i>&nbsp;搜索
-				</button>
-			</form>
-		</div>
+	<div>
+		<form class="well">
+			<input type="text" name="time" id="time"
+				class="calendar calendar-time control-text search-query"
+				readonly="readonly" />
+			<button id="searchBtn" type="button" class="button button-info">
+				<i class="icon-search icon-white"></i>&nbsp;搜索
+			</button>
+		</form>
+	</div>
 
-		<!-- tracker group -->
-		<div class="row-fluid show-grid"><div id="trackerGroup" class="group"></div></div>
+	<!-- tracker 服务器 -->
+	<div class="row-fluid show-grid">
+		<div id="trackerGroup" class="group"></div>
+	</div>
 
-		<!-- storage group -->
-		<div id="storageGroup" class="row-fluid show-grid"></div>
+	<!-- storage 服务器  -->
+	<div id="storageGroup" class="row-fluid show-grid"></div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>
 	<script src="${path}/js/home.js"></script>
 </body>

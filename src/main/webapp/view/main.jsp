@@ -10,7 +10,7 @@
 <link href="${path}/assets/iconfont/iconfont.css" rel="stylesheet">
 </head>
 <body>
-	<!-- header  -->
+	<!-- header头  -->
 	<div class="header">
 		<div class="pull-left">
 			<h1>监控系统</h1>
@@ -38,7 +38,7 @@
 
 	<!-- 内容 -->
 	<div class="content">
-	
+
 		<iframe onload="$(this).css('visibility','visible');"></iframe>
 	</div>
 	<script src="${path}/js/main.js"></script>

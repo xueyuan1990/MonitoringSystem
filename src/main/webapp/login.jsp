@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,8 @@
 						<div class="control-group span9">
 							<div class="controls">
 								<input type="text" id="username" placeholder="用户名"
-									class="input-large control-text" onkeypress="if(event.keyCode==13){login();}">
+									class="input-large control-text"
+									onkeypress="if(event.keyCode==13){login();}">
 							</div>
 						</div>
 
@@ -33,7 +35,8 @@
 						<div class="control-group span9">
 							<div class="controls">
 								<input type="password" id="password" placeholder="登陆密码"
-									class="input-large control-text" onkeypress="if(event.keyCode==13){login();}">
+									class="input-large control-text"
+									onkeypress="if(event.keyCode==13){login();}">
 							</div>
 						</div>
 					</div>

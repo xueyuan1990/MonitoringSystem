@@ -12,19 +12,20 @@
 </head>
 <body>
 
-
+	<!-- 搜索框  -->
 	<div>
 		<form class="well">
-			<input type="text" id="username" placeholder="用户名" class="search-query"
+			<input type="text" id="username" placeholder="用户名"
+				class="search-query"
 				onkeypress="if(event.keyCode==13){showUserInTable();return false}">
 			<button type="button" id="searchBtn" class="button button-info">
 				<i class="icon-search icon-white"></i>&nbsp;搜索
 			</button>
 		</form>
-
 	</div>
-
+	<!-- 用户列表  -->
 	<div id="usertable"></div>
+	<!-- 隐藏的添加用户弹出框 -->
 	<div id="content" class="hide">
 		<form class="form-vertical" method="post">
 			<div class="row">

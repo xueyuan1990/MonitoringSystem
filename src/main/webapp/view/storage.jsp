@@ -20,7 +20,9 @@
 			</button>
 		</form>
 	</div>
+	<!-- 趋势图  -->
 	<div id="graph"></div>
+	<!-- 详情表  -->
 	<div id="storagetable"></div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>
 	<script src="${path}/js/storage.js"></script>
