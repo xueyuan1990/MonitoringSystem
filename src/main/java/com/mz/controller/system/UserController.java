@@ -128,6 +128,9 @@ public class UserController extends BaseController {
     public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
 
         String username = request.getParameter("username");
+        if (username == null) {
+            username = "";
+        }
         boolean deleteSuccess = false;
 
         String usernameOfAdmin = "admin";// 超级用户的username
@@ -135,7 +138,7 @@ public class UserController extends BaseController {
 
         Map<String, Object> error = new HashMap<String, Object>();
 
-        if (!usernameOfAdmin.equals(usernameOfLoginuser)) {// 如果登录的不是超级用户，则不允许其添加新用户
+        if (!usernameOfAdmin.equals(usernameOfLoginuser) || username.equals(usernameOfLoginuser)) {// 如果登录的不是超级用户，则不允许其添加新用户
             //            error.put("errno", -2);
             //            error.put("errmsg", "您没有操作权限!");
             error.put("code", 198000);//未授权

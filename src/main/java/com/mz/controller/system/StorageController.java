@@ -100,6 +100,10 @@ public class StorageController {
     @RequestMapping("/updateServerThreshold")
     public void updateServerThreshold(int groupId, int serverId, int serverThreshold,
                                       HttpServletRequest request, HttpServletResponse response) {
+        int oldServerThreshold = storageService.selectServerThreshold(groupId, serverId);
+        if (oldServerThreshold == serverThreshold) {
+            return;
+        }
 
         boolean flag = storageService.updateServerThreshold(groupId, serverId, serverThreshold);
 

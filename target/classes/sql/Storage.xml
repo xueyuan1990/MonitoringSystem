@@ -37,6 +37,9 @@
 		(select time,groupId,sum(total_storage) grouptotal, sum(free_storage) groupfree from storage s	where s.time=#{time} group by groupId) t,groupStorage gs 
 		where gs.groupId=t.groupId order by gs.groupId
 	</select>
+	<select id="selectServerThreshold" resultType="int">
+	    select serverThreshold from serverStorage s where s.groupId=#{groupId} and s.serverId=#{serverId} 
+	</select>
 	<select id="countStorage" resultType="int">
 		select count(*) from storage s where time=#{time}
 	</select>
@@ -55,5 +58,8 @@
 	</select>
 	<update id="updateServerThreshold">
 		update serverStorage set serverThreshold=#{serverThreshold} where groupId=#{groupId} and serverId=#{serverId}
+	</update>
+	<update id="updateGroupThreshold">
+		update groupStorage set groupThreshold=(select sum(serverThreshold) from serverStorage where groupId=#{groupId}) where groupId=#{groupId}
 	</update>
 </mapper> 

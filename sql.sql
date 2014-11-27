@@ -1,5 +1,5 @@
 
-mysql -h172.16.3.14 -uroot -proot
+mysql -h192.168.19.216 -uroot -proot
 use fdfs_monitor;
 select free from storage where groupId=1 and serverId=1 and time>'2014-10-14 08:00:00' and time<'2014-10-14 10:00:00';
 索引：
@@ -37,9 +37,10 @@ ip_addr varchar(256),
 total_storage int,
 free_storage int,
 success_upload_count int,
-success_download_count int
+success_download_count int,
+last_heart_beat_time  varchar(32)
 );
-alter table storage add column last_heart_beat_time  varchar(32);
+
 
 
 
@@ -58,7 +59,7 @@ update tracker set trackerState='OFFLINE' where trackerId=3;
 update tracker set trackerIp='129.0.0.8' where trackerId=3;
 update tracker set trackerState='ACTIVE',trackerIp='129.0.0.10' where trackerId=3;
 
-insert into serverStorage(groupId,serverId,serverThreshold) values(1,1,100);
+insert into serverStorage(groupId,serverId) values(1,1);
 insert into serverStorage(groupId,serverId) values(1,2);
 insert into serverStorage(groupId,serverId) values(2,1);
 insert into serverStorage(groupId,serverId) values(2,2);

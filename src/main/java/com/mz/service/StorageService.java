@@ -105,6 +105,22 @@ public class StorageService {
 
 
     /**
+     * 查询服务器阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public int selectServerThreshold(int groupId, int serverId) {
+        int serverThreshold = 0;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", groupId);
+        params.put("serverId", serverId);
+        serverThreshold = (int) sqlSession.selectOne("storage.selectServerThreshold", params);
+        return serverThreshold;
+    }
+
+
+    /**
      * 设置服务器空闲阀值，当服务器空闲容量小于该阀值时会触发报警
      * 
      * @author xueyuan
@@ -119,8 +135,22 @@ public class StorageService {
         int i = sqlSession.update("storage.updateServerThreshold", params);
         if (i > 0) {
             flag = true;
+            updateGroupThreshold(groupId);
         }
         return flag;
+    }
+
+
+    /**
+     * 更新组阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    private void updateGroupThreshold(int groupId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", groupId);
+        sqlSession.update("storage.updateGroupThreshold", params);
     }
 
 
