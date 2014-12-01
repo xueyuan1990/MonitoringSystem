@@ -39,19 +39,19 @@ public class StorageController {
      * @author xueyuan
      * @since 1.0
      */
-    @RequestMapping("/selectAllStorage")
-    public void selectAllStorage(String time, int groupId, int serverId,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/getStoragesByPage")
+    public void getStoragesByPage(String time, int groupId, int serverId,
+                                  HttpServletRequest request, HttpServletResponse response) {
 
         List<Storage> list = new ArrayList<Storage>();
         int count = 0;
         int start = Integer.parseInt(request.getParameter("start"));
         int limit = Integer.parseInt(request.getParameter("limit"));
         if (groupId == -1 && serverId == -1) {
-            list = storageService.selectAllStorageByPage(time, start, limit);
-            count = storageService.countStorage(time);
+            list = storageService.getStoragesByPage(time, start, limit);
+            count = storageService.getStoragesNum(time);
         } else {
-            list = storageService.selectStorageById(groupId, serverId, time);
+            list = storageService.getStorage(groupId, serverId, time);
             count = 1;
         }
         //json格式
@@ -77,12 +77,12 @@ public class StorageController {
      * @author xueyuan
      * @since 1.0
      */
-    @RequestMapping("/selectStorageByGroup")
-    public void selectStorageByGroup(String time, int groupId, HttpServletRequest request,
-                                     HttpServletResponse response) {
+    @RequestMapping("/getStoragesByGroup")
+    public void getStoragesByGroup(String time, int groupId, HttpServletRequest request,
+                                   HttpServletResponse response) {
 
         List<Storage> list = new ArrayList<Storage>();
-        list = storageService.selectStorageByGroup(time, groupId);
+        list = storageService.getStoragesByGroup(time, groupId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", 200);
         map.put("message", "");
@@ -97,15 +97,15 @@ public class StorageController {
      * @author xueyuan
      * @since 1.0
      */
-    @RequestMapping("/updateServerThreshold")
-    public void updateServerThreshold(int groupId, int serverId, int serverThreshold,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        int oldServerThreshold = storageService.selectServerThreshold(groupId, serverId);
+    @RequestMapping("/setServerThreshold")
+    public void setServerThreshold(int groupId, int serverId, int serverThreshold,
+                                   HttpServletRequest request, HttpServletResponse response) {
+        int oldServerThreshold = storageService.getServerThreshold(groupId, serverId);
         if (oldServerThreshold == serverThreshold) {
             return;
         }
 
-        boolean flag = storageService.updateServerThreshold(groupId, serverId, serverThreshold);
+        boolean flag = storageService.setServerThreshold(groupId, serverId, serverThreshold);
 
         Map<String, Object> error = new HashMap<String, Object>();
         String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
@@ -135,13 +135,12 @@ public class StorageController {
      * @author xueyuan
      * @since 1.0
      */
-    @RequestMapping("/selectStoragePeriod")
-    public void selectStoragePeriod(int groupId, int serverId, String startTime, String endTime,
-                                    int days, HttpServletRequest request,
-                                    HttpServletResponse response) {
+    @RequestMapping("/getStoragesPeriod")
+    public void getStoragesPeriod(int groupId, int serverId, String startTime, String endTime,
+                                  int days, HttpServletRequest request, HttpServletResponse response) {
 
         List<Storage> list = new ArrayList<Storage>();
-        list = storageService.selectStoragePeriod(groupId, serverId, startTime, endTime, days);
+        list = storageService.getStoragesPeriod(groupId, serverId, startTime, endTime, days);
         //json
         //        Map<String, Object> map = new HashMap<String, Object>();
         //        map.put("code", 200);
@@ -159,12 +158,12 @@ public class StorageController {
      * @author xueyuan
      * @since 1.0
      */
-    @RequestMapping("/selectGroupInfo")
-    public void selectGroupInfo(String time, HttpServletRequest request,
-                                HttpServletResponse response) {
+    @RequestMapping("/getGroupStorages")
+    public void getGroupStorages(String time, HttpServletRequest request,
+                                 HttpServletResponse response) {
 
         List<GroupStorage> list = new ArrayList<GroupStorage>();
-        list = storageService.selectGroupInfo(time);
+        list = storageService.getGroupStorages(time);
 
         //前端饼图需要的信息
         Map<String, Object> map = new HashMap<String, Object>();

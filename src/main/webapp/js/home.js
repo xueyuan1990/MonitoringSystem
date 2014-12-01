@@ -27,7 +27,7 @@ function showTracker() {
 	jTrackerGroup.empty();
 	jTrackerGroup.append('<h2>&nbsp;&nbsp;&nbsp;&nbsp;跟踪服务器</h2>');
 	$.ajax({
-		url : path + '/system/tracker/selectAllTracker.do',
+		url : path + '/system/tracker/getTrackers.do',
 		type : 'POST',
 		dataType : 'json',
 		success : function(response) {
@@ -58,7 +58,7 @@ function showTracker() {
 function search() {
 	$('#storageGroup').empty();
 	$.ajax({
-		url : path + '/system/storage/selectGroupInfo.do',
+		url : path + '/system/storage/getGroupStorages.do',
 		type : 'POST',
 		dataType : 'json',
 		data : {
@@ -82,7 +82,7 @@ function search() {
  */
 function selectStorageByGroup(groupId) {
 	$.ajax({
-		url : path + '/system/storage/selectStorageByGroup.do',
+		url : path + '/system/storage/getStoragesByGroup.do',
 		type : 'POST',
 		dataType : 'json',
 		data : {

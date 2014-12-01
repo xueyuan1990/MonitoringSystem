@@ -32,8 +32,8 @@ public class UserController extends BaseController {
     private UserService userService;
 
 
-    @RequestMapping("/selectUser")
-    public void selectUser(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/getUser")
+    public void getUser(HttpServletRequest request, HttpServletResponse response) {
 
         List<User> list = new ArrayList<User>();
         int count = 0;
@@ -44,11 +44,11 @@ public class UserController extends BaseController {
         int limit = Integer.parseInt(request.getParameter("limit"));
 
         if (username == null || username.trim().length() == 0) {
-            list = userService.selectAllUser(start, limit);
-            count = userService.countUser();
+            list = userService.getUsers(start, limit);
+            count = userService.getUsersNum();
 
         } else {
-            User user = userService.selectByUsername(username);
+            User user = userService.getUser(username);
             if (user != null) {//存在该用户
                 list.add(user);
                 count = 1;

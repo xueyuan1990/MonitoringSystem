@@ -21,9 +21,9 @@ public class TrackerService {
     SqlSession sqlSession;
 
 
-    public List<Tracker> selectAllTracker() {
+    public List<Tracker> getTrackers() {
         List<Tracker> list = new ArrayList<Tracker>();
-        list = sqlSession.selectList("tracker.selectAllTracker");
+        list = sqlSession.selectList("tracker.getTrackers");
         return list;
     }
 
@@ -34,9 +34,9 @@ public class TrackerService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Tracker> alertOffline() {
+    public List<Tracker> getTrackersOffline() {
         List<Tracker> list = new ArrayList<Tracker>();
-        list = sqlSession.selectList("tracker.alertOffline");
+        list = sqlSession.selectList("tracker.getTrackersOffline");
         return list;
     }
 

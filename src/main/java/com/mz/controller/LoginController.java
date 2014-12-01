@@ -30,8 +30,8 @@ public class LoginController {
     private UserService userService;
 
 
-    @RequestMapping("/loginCheck")
-    public void loginCheck(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/isLogin")
+    public void isLogin(HttpServletRequest request, HttpServletResponse response) {
 
         User u = new User();
         String username = request.getParameter("username");
@@ -39,7 +39,7 @@ public class LoginController {
         u.setUsername(username);
         u.setPassword(password);
         boolean loginSuccess = false;
-        loginSuccess = userService.loginCheck(u);
+        loginSuccess = userService.isLogin(u);
 
         Map<String, Object> error = new HashMap<String, Object>();
         if (loginSuccess) {

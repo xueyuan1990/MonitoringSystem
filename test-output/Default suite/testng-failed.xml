@@ -6,8 +6,8 @@
       <class name="com.mz.service.StorageServiceTest">
         <methods>
           <include name="zAfterClass"/>
+          <include name="testSetServerThreshold"/>
           <include name="aBeforeMethod"/>
-          <include name="testAlertNginx"/>
           <include name="aBeforeClass"/>
           <include name="zAfterMethod"/>
         </methods>

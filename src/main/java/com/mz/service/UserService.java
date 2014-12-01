@@ -25,7 +25,7 @@ public class UserService {
     SqlSession sqlSession;
 
 
-    public boolean loginCheck(User u) {//用户名、密码是否正确，如果正确则登录成功，返回true
+    public boolean isLogin(User u) {//用户名、密码是否正确，如果正确则登录成功，返回true
         boolean flag = false;
         if (u == null) {
             return flag;
@@ -33,7 +33,7 @@ public class UserService {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("username", u.getUsername());
         params.put("password", u.getPassword());
-        int cnt = (Integer) sqlSession.selectOne("user.loginCheck", params);
+        int cnt = (Integer) sqlSession.selectOne("user.isLogin", params);
         if (cnt > 0) {
             flag = true;
         }
@@ -41,7 +41,7 @@ public class UserService {
     }
 
 
-    public User selectByUsername(String username) {//用户是否已经存在，如果存在返回true
+    public User getUser(String username) {//用户是否已经存在，如果存在返回true
         if (username == null) {
             return null;
         }
@@ -49,8 +49,24 @@ public class UserService {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("username", username);
         User user = new User();
-        user = (User) sqlSession.selectOne("user.selectByUsername", params);
+        user = (User) sqlSession.selectOne("user.getUser", params);
         return user;
+    }
+
+
+    public List<User> getUsers(int start, int limit) {
+        List<User> list = new ArrayList<User>();
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("start", start);
+        params.put("limit", limit);
+        list = sqlSession.selectList("user.getUsers", params);
+        return list;
+    }
+
+
+    public int getUsersNum() {
+        int count = (Integer) sqlSession.selectOne("user.getUsersNum");
+        return count;
     }
 
 
@@ -64,7 +80,7 @@ public class UserService {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = dateFormat.format(now).toString();
-        if (username.length() == 0 || password.length() == 0 || selectByUsername(username) != null) {//如果用户名已经存在，则添加用户失败，返回false
+        if (username.length() == 0 || password.length() == 0 || getUser(username) != null) {//如果用户名已经存在，则添加用户失败，返回false
             return false;
         }
         Map<String, Object> params = new HashMap<String, Object>();
@@ -85,7 +101,7 @@ public class UserService {
             return flag;
         }
         username = username.trim();
-        if (username.length() != 0 && selectByUsername(username) != null) {//用户名已经存在
+        if (username.length() != 0 && getUser(username) != null) {//用户名已经存在
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("username", username);
             int i = sqlSession.delete("user.deleteUser", params);
@@ -95,21 +111,5 @@ public class UserService {
         }
 
         return flag;
-    }
-
-
-    public List<User> selectAllUser(int start, int limit) {
-        List<User> list = new ArrayList<User>();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("start", start);
-        params.put("limit", limit);
-        list = sqlSession.selectList("user.selectAllUser", params);
-        return list;
-    }
-
-
-    public int countUser() {
-        int count = (Integer) sqlSession.selectOne("user.countUser");
-        return count;
     }
 }

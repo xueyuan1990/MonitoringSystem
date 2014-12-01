@@ -25,19 +25,19 @@ public class TrackerServiceTest extends JTester {
 
 
     @Test
-    @DbFit(when = "TrackerService.selectAllTracker.when.wiki")
-    public void testSelectAllTracker() {
+    @DbFit(when = "TrackerService.getTrackers.when.wiki")
+    public void testGetTrackers() {
         List<Tracker> list = new ArrayList<Tracker>();
-        list = trackerService.selectAllTracker();
+        list = trackerService.getTrackers();
         want.list(list).sizeEq(3);
     }
 
 
     @Test
-    @DbFit(when = "TrackerService.alertOffline.when.wiki")
-    public void testAlertOffline() {
+    @DbFit(when = "TrackerService.getTrackersOffline.when.wiki")
+    public void testGetTrackersOffline() {
         List<Tracker> list = new ArrayList<Tracker>();
-        list = trackerService.alertOffline();
+        list = trackerService.getTrackersOffline();
 
         want.list(list).allItemsMatchAll(
                 the.object().propertyMatch("trackerState", the.string().contains("OFFLINE")));

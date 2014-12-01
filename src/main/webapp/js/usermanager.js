@@ -34,7 +34,7 @@ function showUserInTable() {
 	} ];
 
 	var store = new BUI.Data.Store({
-		url : path + '/system/user/selectUser.do',
+		url : path + '/system/user/getUser.do',
 		autoLoad : true, 
 		params : { 
 			username : username

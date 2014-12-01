@@ -22,8 +22,8 @@ public class UserServiceTest extends JTester {
 
 
     @Test
-    @DbFit(when = "UserService.loginCheck.when.wiki")
-    public void testLoginCheck() {
+    @DbFit(when = "UserService.isLogin.when.wiki")
+    public void testIsLogin() {
         User user1 = new User();//用户名、密码都匹配
         user1.setUsername("userLogin");
         user1.setPassword("p1");
@@ -36,22 +36,22 @@ public class UserServiceTest extends JTester {
         User user4 = new User();//用户名、密码都不匹配
         user4.setUsername("u4");
         user4.setPassword("p4");
-        want.bool(userService.loginCheck(user1)).is(true);
-        want.bool(userService.loginCheck(user2)).is(false);
-        want.bool(userService.loginCheck(user3)).is(false);
-        want.bool(userService.loginCheck(user4)).is(false);
+        want.bool(userService.isLogin(user1)).is(true);
+        want.bool(userService.isLogin(user2)).is(false);
+        want.bool(userService.isLogin(user3)).is(false);
+        want.bool(userService.isLogin(user4)).is(false);
     }
 
 
     @Test
-    @DbFit(when = "UserService.selectByUsername.when.wiki")
-    public void testSelectByUsername() {
+    @DbFit(when = "UserService.getUser.when.wiki")
+    public void testGetUser() {
         String username = "userSelect";//该用户存在
         String username2 = "username2";//该用户不存在
 
-        want.object(userService.selectByUsername(username)).propertyEq("username", "userSelect");
-        want.object(userService.selectByUsername(username)).propertyEq("password", "p1");
-        want.object(userService.selectByUsername(username2)).isNull();
+        want.object(userService.getUser(username)).propertyEq("username", "userSelect");
+        want.object(userService.getUser(username)).propertyEq("password", "p1");
+        want.object(userService.getUser(username2)).isNull();
 
     }
 
@@ -93,9 +93,9 @@ public class UserServiceTest extends JTester {
 
 
     @Test
-    @DbFit(when = { "UserService.countUser.when.wiki" })
-    public void testCountUser() {
-        int cnt = userService.countUser();
+    @DbFit(when = { "UserService.getUsersNum.when.wiki" })
+    public void testGetUsersNum() {
+        int cnt = userService.getUsersNum();
         want.number(cnt).eq(4);
     }
 

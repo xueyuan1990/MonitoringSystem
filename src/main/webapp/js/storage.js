@@ -118,7 +118,7 @@ function showInTable() {
 		listeners : {
 			accept : function(ev) {
 				$.ajax({
-					url : path + '/system/storage/updateServerThreshold.do',
+					url : path + '/system/storage/setServerThreshold.do',
 					type : 'POST',
 					dataType : 'json',
 					data : {
@@ -137,7 +137,7 @@ function showInTable() {
 	});
 
 	var store = new BUI.Data.Store({
-		url : path + '/system/storage/selectAllStorage.do',
+		url : path + '/system/storage/getStoragesByPage.do',
 		autoLoad : true,
 		params : {
 			time : $('#time').val(),
@@ -191,7 +191,7 @@ function searchOneStorage(groupId, serverId, days) {
 		endTimeFormat = endTime.getFullYear() + "-" + (endTime.getMonth() + 1) + "-" + endTime.getDate() + " 00:00";
 	}
 	var store = new BUI.Data.Store({
-		url : path + '/system/storage/selectStoragePeriod.do',
+		url : path + '/system/storage/getStoragesPeriod.do',
 		autoLoad : false,
 		params : {
 			startTime : startTimeFormat,
@@ -229,10 +229,10 @@ function searchOneStorage(groupId, serverId, days) {
 	}
 	var chart = new AChart({
 		id : 'graph',
-		height : 308,
 		forceFit : true, // 自适应宽度
+		fitRatio : 0.25, // 高度是宽度的 0.25
 		plotCfg : {
-			margin : [ 50, 50, 40 ]
+			margin : [ 50, 50, 80 ]
 		},
 		title : {
 			text : groupId + '组' + serverId + '号服务器 ' + days + '天内趋势图'
@@ -273,15 +273,6 @@ function searchOneStorage(groupId, serverId, days) {
 			shared : true, // 多个数据序列共同显示信息
 			crosshairs : true
 		// 出现基准线
-		},
-		legend : {
-			dy : -40,
-			dx : 10,
-			align : 'top',
-			layout : 'vertical',
-			back : {
-				fill : '#efefef'
-			}
 		},
 		series : [ {
 			name : '已用容量(M)',

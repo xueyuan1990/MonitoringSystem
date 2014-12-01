@@ -32,11 +32,11 @@ public class TrackerController {
     private TrackerService trackerService;
 
 
-    @RequestMapping("selectAllTracker")
-    public void selectAllTracker(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/getTrackers")
+    public void getTrackers(HttpServletRequest request, HttpServletResponse response) {
 
         List<Tracker> list = new ArrayList<Tracker>();
-        list = trackerService.selectAllTracker();
+        list = trackerService.getTrackers();
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", 200);

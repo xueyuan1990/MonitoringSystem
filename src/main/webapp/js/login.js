@@ -5,7 +5,7 @@ $(function() {
 
 function login() {
 	$.ajax({
-		url : path + '/login/loginCheck.do',
+		url : path + '/login/isLogin.do',
 		type : 'POST',
 		dataType : 'json',
 		data : {

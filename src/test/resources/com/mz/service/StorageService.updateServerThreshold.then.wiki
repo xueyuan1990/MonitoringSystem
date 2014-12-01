@@ -1,6 +1,0 @@
-|connect| 
-|query|select groupId,serverId,serverThreshold from serverStorage where groupId=1 and serverId=1|   
-|groupId|serverId|serverThreshold|
-|1|1|90|
-
-

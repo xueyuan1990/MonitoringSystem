@@ -40,14 +40,14 @@ public class StorageService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> selectAllStorageByPage(String time, int start, int limit) {
+    public List<Storage> getStoragesByPage(String time, int start, int limit) {
         List<Storage> list = new ArrayList<Storage>();
-        time = getFormatTime(time);
+        time = toFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("start", start);
         params.put("limit", limit);
-        list = sqlSession.selectList("storage.selectAllStorageByPage", params);
+        list = sqlSession.selectList("storage.getStoragesByPage", params);
 
         return list;
     }
@@ -59,30 +59,15 @@ public class StorageService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> selectStorageById(int groupId, int serverId, String time) {
+    public List<Storage> getStorage(int groupId, int serverId, String time) {
         List<Storage> list = new ArrayList<Storage>();
-        time = getFormatTime(time);
+        time = toFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("groupId", groupId);
         params.put("serverId", serverId);
-        list = sqlSession.selectList("storage.selectStorageById", params);
+        list = sqlSession.selectList("storage.getStorage", params);
         return list;
-    }
-
-
-    /**
-     * 查服务器总数
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public int countStorage(String time) {
-        time = getFormatTime(time);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("time", time);
-        int count = (Integer) sqlSession.selectOne("storage.countStorage", params);
-        return count;
     }
 
 
@@ -92,65 +77,15 @@ public class StorageService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> selectStorageByGroup(String time, int groupId) {
+    public List<Storage> getStoragesByGroup(String time, int groupId) {
         List<Storage> list = new ArrayList<Storage>();
-        time = getFormatTime(time);
+        time = toFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("groupId", groupId);
-        list = sqlSession.selectList("storage.selectStorageByGroup", params);
+        list = sqlSession.selectList("storage.getStoragesByGroup", params);
 
         return list;
-    }
-
-
-    /**
-     * 查询服务器阀值
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public int selectServerThreshold(int groupId, int serverId) {
-        int serverThreshold = 0;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("groupId", groupId);
-        params.put("serverId", serverId);
-        serverThreshold = (int) sqlSession.selectOne("storage.selectServerThreshold", params);
-        return serverThreshold;
-    }
-
-
-    /**
-     * 设置服务器空闲阀值，当服务器空闲容量小于该阀值时会触发报警
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public boolean updateServerThreshold(int groupId, int serverId, int serverThreshold) {
-        boolean flag = false;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("groupId", groupId);
-        params.put("serverId", serverId);
-        params.put("serverThreshold", serverThreshold);
-        int i = sqlSession.update("storage.updateServerThreshold", params);
-        if (i > 0) {
-            flag = true;
-            updateGroupThreshold(groupId);
-        }
-        return flag;
-    }
-
-
-    /**
-     * 更新组阀值
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    private void updateGroupThreshold(int groupId) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("groupId", groupId);
-        sqlSession.update("storage.updateGroupThreshold", params);
     }
 
 
@@ -160,17 +95,17 @@ public class StorageService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> selectStoragePeriod(int groupId, int serverId, String startTime,
-                                             String endTime, int days) {
+    public List<Storage> getStoragesPeriod(int groupId, int serverId, String startTime,
+                                           String endTime, int days) {
         List<Storage> list = new ArrayList<Storage>();
-        endTime = getFormatTime(endTime);
-        startTime = getFormatTime(startTime);
+        endTime = toFormatTime(endTime);
+        startTime = toFormatTime(startTime);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("groupId", groupId);
         params.put("serverId", serverId);
         params.put("startTime", startTime);
         params.put("endTime", endTime);
-        list = sqlSession.selectList("storage.selectStoragePeriod", params);
+        list = sqlSession.selectList("storage.getStoragesPeriod", params);
         String subString = "";
 
         if (days == 1) {
@@ -188,7 +123,7 @@ public class StorageService {
             }
         }
         // 补充为采样时间点数据
-        list = checkStoragePeriod(list, groupId, serverId, startTime, endTime, days);
+        list = toFormatStoragesPeriod(list, groupId, serverId, startTime, endTime, days);
 
         if (days == 90) {//5天一次
             int i = 0;
@@ -206,13 +141,189 @@ public class StorageService {
 
 
     /**
+     * 查服务器总数
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public int getStoragesNum(String time) {
+        time = toFormatTime(time);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        int count = (Integer) sqlSession.selectOne("storage.getStoragesNum", params);
+        return count;
+    }
+
+
+    /**
+     * 组信息
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public List<GroupStorage> getGroupStorages(String time) {
+        List<GroupStorage> list = new ArrayList<GroupStorage>();
+        time = toFormatTime(time);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        list = sqlSession.selectList("storage.getGroupStorages", params);
+
+        return list;
+    }
+
+
+    /**
+     * storage OFFLINE时报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public List<Storage> getStoragesOffline() {
+        String time = toFormatTime("");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        List<Storage> list = new ArrayList<Storage>();
+        list = sqlSession.selectList("storage.getStoragesOffline", params);
+        return list;
+    }
+
+
+    /**
+     * storage空闲容量低于阀值，报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public List<Storage> getStoragesLessFreeStorage() {
+        String time = toFormatTime("");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        List<Storage> list = new ArrayList<Storage>();
+        list = sqlSession.selectList("storage.getStoragesLessFreeStorage", params);
+        return list;
+    }
+
+
+    /**
+     * Nginx URL无法访问时，报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public List<Storage> getStoragesNginxDisconnectted() {
+        List<Storage> list = new ArrayList<Storage>();
+        String time = toFormatTime("");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", time);
+        list = sqlSession.selectList("storage.getStorages", params);
+        if (list == null) {
+            return list;
+        }
+        Iterator<Storage> it = list.iterator();
+        while (it.hasNext()) {
+            Storage storage = it.next();
+            String ip = storage.getIpAddr().split(" ")[0];
+            if (isConnectted(ip)) {//如果访问成功，则去除
+                it.remove();
+            }
+        }
+        return list;
+
+    }
+
+
+    /**
+     * 查询服务器阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public int getServerThreshold(int groupId, int serverId) {
+        int serverThreshold = 0;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", groupId);
+        params.put("serverId", serverId);
+        serverThreshold = (int) sqlSession.selectOne("storage.getServerThreshold", params);
+        return serverThreshold;
+    }
+
+
+    /**
+     * 设置服务器空闲阀值，当服务器空闲容量小于该阀值时会触发报警
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    public boolean setServerThreshold(int groupId, int serverId, int serverThreshold) {
+        boolean flag = false;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", groupId);
+        params.put("serverId", serverId);
+        params.put("serverThreshold", serverThreshold);
+        int i = sqlSession.update("storage.setServerThreshold", params);
+        if (i > 0) {
+            flag = true;
+            setGroupThreshold(groupId);
+        }
+        return flag;
+    }
+
+
+    /**
+     * 更新组阀值
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    private void setGroupThreshold(int groupId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", groupId);
+        sqlSession.update("storage.setGroupThreshold", params);
+    }
+
+
+    /**
+     * 该URL是否可访问，访问成功返回true，否则false
+     * 
+     * @author xueyuan
+     * @since 1.0
+     */
+    private boolean isConnectted(String surl) {
+        if (surl == null) {
+            return false;
+        }
+        if (!surl.startsWith("http://")) {
+            surl = "http://" + surl;
+        }
+        int code = 0;
+        String msg = "";
+        try {
+            URL url = new URL(surl);
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+            httpUrlConnection.setConnectTimeout(3000);
+            httpUrlConnection.setReadTimeout(3000);
+            httpUrlConnection.connect();
+            code = new Integer(httpUrlConnection.getResponseCode());//200
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        if (code == 200) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+    /**
      * 判断序列中时间是否连续，如果不是，则补全采样点，使序列成为时间连续的
      * 
      * @author xueyuan
      * @since 1.0
      */
-    private List<Storage> checkStoragePeriod(List<Storage> list, int groupId, int serverId,
-                                             String startTime, String endTime, int days) {
+    private List<Storage> toFormatStoragesPeriod(List<Storage> list, int groupId, int serverId,
+                                                 String startTime, String endTime, int days) {
         if (list == null) {
             list = new ArrayList<Storage>();
         }
@@ -223,8 +334,8 @@ public class StorageService {
             timeInterval = 24 * 3600 * 1000;
         }
 
-        startTime = getFormatTime(startTime);
-        endTime = getFormatTime(endTime);
+        startTime = toFormatTime(startTime);
+        endTime = toFormatTime(endTime);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long startTimeLong = 0;
         long endTimeLong = 0;
@@ -276,34 +387,17 @@ public class StorageService {
 
 
     /**
-     * 组信息
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public List<GroupStorage> selectGroupInfo(String time) {
-        List<GroupStorage> list = new ArrayList<GroupStorage>();
-        time = getFormatTime(time);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("time", time);
-        list = sqlSession.selectList("storage.selectGroupInfo", params);
-
-        return list;
-    }
-
-
-    /**
      * 把时间格式化为： yyyy-MM-dd HH:mm:ss 形式。如果时间为null，则从数据库中取出最新时间作为time值
      * 
      * @author xueyuan
      * @since 1.0
      */
-    private String getFormatTime(String time) {
+    private String toFormatTime(String time) {
         if (time == null || time.trim().length() == 0) {
             //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             //            time = dateFormat.format(new Date()).toString();
             //last time
-            time = (String) sqlSession.selectOne("storage.lastTime");
+            time = (String) sqlSession.selectOne("storage.getLastTime");
         }
 
         if (time.length() != 16) {// 将2014-1-1 1:1改为2014-01-01 01:01
@@ -324,97 +418,4 @@ public class StorageService {
 
     }
 
-
-    /**
-     * storage OFFLINE时报警
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public List<Storage> alertOffline() {
-        String time = getFormatTime("");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("time", time);
-        List<Storage> list = new ArrayList<Storage>();
-        list = sqlSession.selectList("storage.alertOffline", params);
-        return list;
-    }
-
-
-    /**
-     * storage空闲容量低于阀值，报警
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public List<Storage> alertFreeStorage() {
-        String time = getFormatTime("");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("time", time);
-        List<Storage> list = new ArrayList<Storage>();
-        list = sqlSession.selectList("storage.alertFreeStorage", params);
-        return list;
-    }
-
-
-    /**
-     * Nginx URL无法访问时，报警
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    public List<Storage> alertNginx() {
-        List<Storage> list = new ArrayList<Storage>();
-        String time = getFormatTime("");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("time", time);
-        list = sqlSession.selectList("storage.selectAllStorage", params);
-        if (list == null) {
-            return list;
-        }
-        Iterator<Storage> it = list.iterator();
-        while (it.hasNext()) {
-            Storage storage = it.next();
-            String ip = storage.getIpAddr().split(" ")[0];
-            if (getHttpCode(ip)) {//如果访问成功，则去除
-                it.remove();
-            }
-        }
-        return list;
-
-    }
-
-
-    /**
-     * 该URL是否可访问，访问成功返回true，否则false
-     * 
-     * @author xueyuan
-     * @since 1.0
-     */
-    private boolean getHttpCode(String surl) {
-        if (surl == null) {
-            return false;
-        }
-        if (!surl.startsWith("http://")) {
-            surl = "http://" + surl;
-        }
-        int code = 0;
-        String msg = "";
-        try {
-            URL url = new URL(surl);
-            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-            httpUrlConnection.setConnectTimeout(3000);
-            httpUrlConnection.setReadTimeout(3000);
-            httpUrlConnection.connect();
-            code = new Integer(httpUrlConnection.getResponseCode());//200
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-        if (code == 200) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 }

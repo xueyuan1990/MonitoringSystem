@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
-	<select id="loginCheck" resultType="int">
+	<select id="isLogin" resultType="int">
 		select count(*) c from user u
 		where u.username=#{username} and
 		u.password=#{password}
 	</select>
-	<select id="selectByUsername" resultType="com.mz.entity.User">
+	<select id="getUser" resultType="com.mz.entity.User">
 		select * from
 		user u
 		where u.username=#{username}
 	</select>
-	<select id="selectAllUser" resultType="com.mz.entity.User">
+	<select id="getUsers" resultType="com.mz.entity.User">
 		select * from user u order
 		by u.username limit #{start},#{limit}
 	</select>
-	<select id="countUser" resultType="int">
+	<select id="getUsersNum" resultType="int">
 		select count(*) c from user
 	</select>
 	<insert id="addUser">

@@ -45,10 +45,10 @@ public class AlertController {
         List<Storage> storageListOffline = new ArrayList<Storage>();
         List<Storage> storageListFreeStorage = new ArrayList<Storage>();
         List<Storage> storageListNginx = new ArrayList<Storage>();
-        trackerListOffline = trackerService.alertOffline();
-        storageListOffline = storageService.alertOffline();
-        storageListFreeStorage = storageService.alertFreeStorage();
-        storageListNginx = storageService.alertNginx();
+        trackerListOffline = trackerService.getTrackersOffline();
+        storageListOffline = storageService.getStoragesOffline();
+        storageListFreeStorage = storageService.getStoragesLessFreeStorage();
+        storageListNginx = storageService.getStoragesNginxDisconnectted();
 
         Map<String, Object> alertInfoMap = new HashMap<String, Object>();
         List codeList = new ArrayList();
