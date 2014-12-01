@@ -77,6 +77,7 @@ public class UserService {
         }
         String username = u.getUsername().trim();
         String password = u.getPassword().trim();
+        String userRights = u.getUserRights();
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = dateFormat.format(now).toString();
@@ -87,6 +88,7 @@ public class UserService {
         params.put("username", username);
         params.put("password", password);
         params.put("createTime", createTime);
+        params.put("userRights", userRights);
         int i = sqlSession.insert("user.addUser", params);
         if (i > 0) {
             flag = true;

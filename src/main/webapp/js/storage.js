@@ -16,7 +16,7 @@ $(function() {
 function GetRequest() {
 	var url = location.search; // 获取url中"?"符后的字串
 	var theRequest = new Object();
-	if (url.indexOf("?") != -1) {
+	if (url.indexOf("?") !== -1) {
 		var str = url.substr(1);
 		strs = str.split("&");
 		for (var i = 0; i < strs.length; i++) {
@@ -92,7 +92,8 @@ function showInTable() {
 					xtype : 'number',
 					rules : {
 						required : true
-					}
+					},
+					validator : valid
 				}
 			},
 			{
@@ -113,6 +114,14 @@ function showInTable() {
 					return '<span class="grid-command" days="1">1天</span><span class="grid-command" days="7">7天</span><span class="grid-command" days="30">30天</span><span class="grid-command" days="90">90天</span>';
 				}
 			} ];
+	/*
+	 * 验证阀值设置合法
+	 */
+	function valid(value) {
+		if (value < 0 || value % 1 !== 0) {
+			return "阀值只能设置为正整数";
+		}
+	}
 	var editing = new BUI.Grid.Plugins.CellEditing({
 		triggerSelected : true,
 		listeners : {

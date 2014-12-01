@@ -19,8 +19,8 @@
 		select count(*) c from user
 	</select>
 	<insert id="addUser">
-		insert into user(username,password,createTime)
-		value(#{username},#{password},#{createTime})
+		insert into user(username,password,createTime,userRights)
+		value(#{username},#{password},#{createTime},#{userRights})
 	</insert>
 	<delete id="deleteUser">
 		delete from user where username = #{username}

@@ -55,6 +55,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="control-group span8">
+					<label class="control-label"><s>*</s>用户权限：</label>
+					<div class="controls">
+						<select name="userRights">
+							<option class="input-normal control-text" value="" selected="selected">普通用户</option>
+							<option class="input-normal control-text" value="admin">管理员</option>
+						</select>
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 	<script src="${path}/assets/bui/acharts-min.js"></script>

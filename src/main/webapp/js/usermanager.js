@@ -22,7 +22,7 @@ function showUserInTable() {
 		elCls : 'center'
 	}, {
 		title : '用户权限',
-		dataIndex : 'authority',
+		dataIndex : 'userRights',
 		elCls : 'center'
 	}, {
 		title : '用户管理',
@@ -34,7 +34,7 @@ function showUserInTable() {
 	} ];
 
 	var store = new BUI.Data.Store({
-		url : path + '/system/user/getUser.do',
+		url : path + '/system/user/getUsers.do',
 		autoLoad : true, 
 		params : { 
 			username : username
@@ -76,16 +76,18 @@ function showUserInTable() {
 				var username = $.trim(form.getFieldValue("username"));
 				var password = $.trim(form.getFieldValue("password"));
 				var password2 = $.trim(form.getFieldValue("password2"));
+				var userRights = $.trim(form.getFieldValue("userRights"));
 				form.valid();// 检验
 				if (form.isValid()) {
-					if (password != password2) {// 两次输入密码是否一致
+					if (password !== password2) {// 两次输入密码是否一致
 						BUI.Message.Alert('两次输入密码不一致！', 'warning');
 					} else {
 						form.ajaxSubmit({ // 表单异步提交
 							url : path + '/system/user/addUser.do',
 							data : {
 								username : username,
-								password : password
+								password : password,
+								userRights : userRights
 							},
 							success : function(response) {
 								if (response.code != 200) {
