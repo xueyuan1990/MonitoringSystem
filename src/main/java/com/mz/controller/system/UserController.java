@@ -32,8 +32,8 @@ public class UserController extends BaseController {
     private UserService userService;
 
 
-    @RequestMapping("/getUser")
-    public void getUser(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/getUsers")
+    public void getUsers(HttpServletRequest request, HttpServletResponse response) {
 
         List<User> list = new ArrayList<User>();
         int count = 0;
@@ -88,15 +88,20 @@ public class UserController extends BaseController {
         User u = new User();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String userRights = request.getParameter("userRights");
+        if (userRights == null || userRights.trim().length() == 0) {
+            userRights = "normal user";
+        }
         u.setUsername(username);
         u.setPassword(password);
+        u.setUserRights(userRights);
         boolean addSuccess = false;
-        String usernameOfAdmin = "admin";// 超级用户的username
+        String userRightsOfAdmin = "admin";// 管理员的权限
         String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-
+        String userRightsOfLoginuser = userService.getUser(usernameOfLoginuser).getUserRights();// 已登录用户的权限
         Map<String, Object> error = new HashMap<String, Object>();
 
-        if (!usernameOfAdmin.equals(usernameOfLoginuser)) {// 如果登录的不是超级用户，则不允许其添加新用户
+        if (!userRightsOfAdmin.equals(userRightsOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其添加新用户
             //            error.put("errno", -2);
             //            error.put("errmsg", "您没有操作权限!");
             error.put("code", 198000);//未授权

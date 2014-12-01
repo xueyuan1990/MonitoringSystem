@@ -118,7 +118,7 @@ function showInPie(datas) {
 		var gray2 = '#A39797';
 		var color1 = green1;// 正常状态为绿色
 		var color2 = green2;
-		if (data.serverThreshold != 0 && data.freeStorage < data.serverThreshold) {// 剩余容量低于阀值时，为红色
+		if (data.freeStorage < data.serverThreshold) {// 剩余容量低于阀值时，为红色
 			color1 = red1;
 			color2 = red2;
 		}

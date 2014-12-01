@@ -10,7 +10,7 @@ public class User {
     private String username;
     private String password;
     private String createTime;
-    private String authority;
+    private String userRights;
 
 
     public String getUsername() {
@@ -43,13 +43,13 @@ public class User {
     }
 
 
-    public String getAuthority() {
-        return authority;
+    public String getUserRights() {
+        return userRights;
     }
 
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public void setUserRights(String userRights) {
+        this.userRights = userRights;
     }
 
 }

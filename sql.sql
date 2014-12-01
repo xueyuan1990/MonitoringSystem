@@ -10,7 +10,8 @@ drop table user;
 create table user(
 username varchar(16) primary key,
 password varchar(16) not null,
-createTime varchar(32)
+createTime varchar(32),
+userRights varchar(32) default 'normal user'
 );
 
 drop table groupStorage;
@@ -111,8 +112,8 @@ insert into storage(time,groupId,serverId,ip,total,free,threshold) values("2014-
 insert into storage(time,groupId,serverId,ip,total,free,threshold) values("2014-01-01 02:00:00",4,2,'127.0.0.1 ACTIVE',200,50,0);
 insert into storage(time,groupId,serverId,ip,total,free,threshold) values("2014-01-01 02:00:00",4,3,'127.0.0.1 ACTIVE',300,50,0);
 
-insert into user values("admin","123","2014-01-01 02:00:00");
-insert into user values("u1","p1","2014-01-01 02:00:00");
+insert into user values("admin","123","2014-01-01 02:00:00","admin");
+insert into user(username,password,createTime) values("u1","p1","2014-01-01 02:00:00");
 insert into user values("user2","123","2014-01-01 02:00:00");
 insert into user values("user3","123","2014-01-01 02:00:00");
 insert into user values("user4","123","2014-01-01 02:00:00");
