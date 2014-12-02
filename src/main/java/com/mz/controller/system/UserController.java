@@ -96,12 +96,10 @@ public class UserController extends BaseController {
         u.setPassword(password);
         u.setUserRights(userRights);
         boolean addSuccess = false;
-        String userRightsOfAdmin = "admin";// 管理员的权限
-        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-        String userRightsOfLoginuser = userService.getUser(usernameOfLoginuser).getUserRights();// 已登录用户的权限
-        Map<String, Object> error = new HashMap<String, Object>();
 
-        if (!userRightsOfAdmin.equals(userRightsOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其添加新用户
+        Map<String, Object> error = new HashMap<String, Object>();
+        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
+        if (!isAdmin(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其添加新用户
             //            error.put("errno", -2);
             //            error.put("errmsg", "您没有操作权限!");
             error.put("code", 198000);//未授权
@@ -138,12 +136,10 @@ public class UserController extends BaseController {
         }
         boolean deleteSuccess = false;
 
-        String usernameOfAdmin = "admin";// 超级用户的username
-        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-
         Map<String, Object> error = new HashMap<String, Object>();
 
-        if (!usernameOfAdmin.equals(usernameOfLoginuser) || username.equals(usernameOfLoginuser)) {// 如果登录的不是超级用户，则不允许其添加新用户
+        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
+        if (!isAdmin(usernameOfLoginuser) || username.equals(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其删除用户
             //            error.put("errno", -2);
             //            error.put("errmsg", "您没有操作权限!");
             error.put("code", 198000);//未授权
@@ -169,5 +165,15 @@ public class UserController extends BaseController {
         }
         BaseController.writeJson(logger, response, error);
 
+    }
+
+
+    private boolean isAdmin(String username) {
+        if (username == null || username.trim().length() == 0) {
+            return false;
+        }
+        final String USER_RIGHTS_OF_ADMIN = "admin";// 管理员的权限
+        String userRights = userService.getUser(username).getUserRights();// 已登录用户的权限
+        return USER_RIGHTS_OF_ADMIN.equals(userRights);
     }
 }
