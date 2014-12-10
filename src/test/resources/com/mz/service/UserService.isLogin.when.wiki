@@ -1,8 +1,0 @@
-|connect| 
-|clean table|user|   
-|insert|user| 
-|username|password|createTime| 
-|userLogin|p1|2011-11-11 11:11:11|  
-
-|commit| 
-

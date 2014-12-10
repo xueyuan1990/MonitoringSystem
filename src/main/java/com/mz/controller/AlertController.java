@@ -126,22 +126,29 @@ public class AlertController {
 
 
     @RequestMapping("/alert")
-    public void sendEmail(HttpServletRequest request, HttpServletResponse response) {
-        Date now = new Date();
-        boolean flag = false;//为true时发送200
-        if (lastTimeOfSendEmail != null
-                && (now.getTime() - lastTimeOfSendEmail.getTime()) < 24 * 3600 * 1000) {
-            flag = true;
-        }
+    public void sendEmail(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         Map<String, Object> alertInfoMap = getAlertInfo(request, response);
-        String alertInfo = BaseController.getJson(logger, response, alertInfoMap);
+        try {
+            Date now = new Date();
+            boolean flag = false;//为true时发送200
+            if (lastTimeOfSendEmail != null
+                    && (now.getTime() - lastTimeOfSendEmail.getTime()) < 24 * 3600 * 1000) {
+                flag = true;
+            }
 
-        if (info != null && info.equals(alertInfo) && flag) {//相等且距离上次发送email在24小时内,发code=200
-            alertInfoMap.put("code", 200);
-        } else {
-            info = alertInfo;
-            lastTimeOfSendEmail = now;
+            String alertInfo = BaseController.getJson(response, alertInfoMap);
+
+            if (info != null && info.equals(alertInfo) && flag) {//相等且距离上次发送email在24小时内,发code=200
+                alertInfoMap.put("code", 200);
+            } else {
+                info = alertInfo;
+                lastTimeOfSendEmail = now;
+            }
+            BaseController.writeJson(response, alertInfoMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, alertInfoMap);
         }
-        BaseController.writeJson(logger, response, alertInfoMap);
     }
 }

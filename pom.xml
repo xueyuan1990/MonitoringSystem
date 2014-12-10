@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.meizu.base</groupId>
 		<artifactId>parent.war</artifactId>
@@ -7,47 +9,36 @@
 	</parent>
 
 
-	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.meizu.fastdfs-web</groupId>
 	<artifactId>fastdfs-web</artifactId>
-	<version>1.0</version>
+	<name>fastdfs-web</name>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>fastdfs-web</name>
-	<url>http://maven.apache.org</url>
-
-
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<testng.version>6.8</testng.version>
-		<jtester.version>1.1.8</jtester.version>
-		<fitnesse.version>20100211</fitnesse.version>
-		<junit.version>4.11</junit.version>
-		<jetty.version>6.1.24</jetty.version>
+		<commons-lang3.version>3.1</commons-lang3.version>
 		<spring.version>3.2.8.RELEASE</spring.version>
 		<mysql.version>5.1.20</mysql.version>
-		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
-		<mybatis.version>3.0.6</mybatis.version>
-		<c3p0.version>0.9.1</c3p0.version>
-		<jackson.version>1.9.11</jackson.version>
-		<commons-pool.version>1.2</commons-pool.version>
-		<mybatis-spring.version>1.0.2</mybatis-spring.version>
-		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<log4j.version>1.2.17</log4j.version>
+		<mybatis.version>3.2.1</mybatis.version>
+		<fastjson.version>1.1.41</fastjson.version>
+		<druid.version>1.0.9</druid.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<jstl.version>1.2</jstl.version>
 		<taglibs.version>1.1.2</taglibs.version>
-		<servlet.version>2.5</servlet.version>
+		<servlet.version>3.0.1</servlet.version>
 		<jsp.version>2.2</jsp.version>
-		<maven.version>3.2</maven.version>
+		<!-- test version -->
+		<jetty.version>6.1.24</jetty.version>
 	</properties>
 
 	<build>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.version}</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -57,62 +48,22 @@
 	</build>
 
 	<dependencies>
-		<!-- 涉及数据库的单元测试 -->
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
 		</dependency>
+		<!-- fastjson -->
 		<dependency>
-			<groupId>jtester</groupId>
-			<artifactId>jtester</artifactId>
-			<version>${jtester.version}</version>
-			<scope>test</scope>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
 		</dependency>
+		<!-- druid -->
 		<dependency>
-			<groupId>fitnesse</groupId>
-			<artifactId>fitnesse</artifactId>
-			<version>${fitnesse.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- jetty -->
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty</artifactId>
-			<version>${jetty.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jsp-2.1-jetty</artifactId>
-			<version>${jetty.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- spring test -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<!-- spring mvc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
 		</dependency>
 		<!-- mybatis -->
 		<dependency>
@@ -120,28 +71,16 @@
 			<artifactId>mybatis</artifactId>
 			<version>${mybatis.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis-spring.version}</version>
 		</dependency>
-
 		<!-- JDBC驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-pool</groupId>
-			<artifactId>commons-pool</artifactId>
-			<version>${commons-pool.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>${commons-dbcp.version}</version>
 		</dependency>
 		<!-- spring相关 -->
 		<dependency>
@@ -161,7 +100,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
+			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
@@ -191,20 +130,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<!-- 日志库 -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -216,11 +145,10 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>${c3p0.version}</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
-
 		<!-- web -->
 		<dependency>
 			<groupId>jstl</groupId>
@@ -232,10 +160,9 @@
 			<artifactId>standard</artifactId>
 			<version>${taglibs.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -245,6 +172,91 @@
 			<artifactId>jsp-api</artifactId>
 			<version>${jsp.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- unit test lib -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-dbunit</artifactId>
+			<version>3.3</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-spring</artifactId>
+			<version>3.3</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-inject</artifactId>
+			<version>3.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.dreamhead</groupId>
+			<artifactId>moco-core</artifactId>
+			<version>0.9.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.5.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.5.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>1.6.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-2.1-jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

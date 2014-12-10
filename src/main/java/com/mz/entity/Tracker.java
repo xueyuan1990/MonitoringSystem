@@ -7,9 +7,22 @@ package com.mz.entity;
  * @since 1.0
  **/
 public class Tracker {
-    private int    trackerId;
-    private String trackerIp;
-    private String trackerState;
+    private int    trackerId;   //tracker服务器ID
+    private String trackerIp;   //tracker服务器ip地址
+    private String trackerState; //tracker服务器状态，如ACTIVE,OFFLINE
+
+
+    public Tracker() {
+
+    }
+
+
+    public Tracker(int trackerId, String trackerIp, String trackerState) {
+        super();
+        this.trackerId = trackerId;
+        this.trackerIp = trackerIp;
+        this.trackerState = trackerState;
+    }
 
 
     public int getTrackerId() {

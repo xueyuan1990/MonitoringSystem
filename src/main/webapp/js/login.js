@@ -15,9 +15,13 @@ function login() {
 		success : function(response) {
 			if (response.code == 200) {
 				window.location.href = path + '/view/main.jsp';
-			} else {
+			} else if(response.message!=null) {
 				BUI.Message.Alert(response.message, 'error');
+			}else{
+				window.location.href = path + '/500.jsp';
 			}
+			
+			
 		}
 
 	});

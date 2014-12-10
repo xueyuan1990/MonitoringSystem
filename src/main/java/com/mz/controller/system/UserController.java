@@ -33,147 +33,123 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("/getUsers")
-    public void getUsers(HttpServletRequest request, HttpServletResponse response) {
-
-        List<User> list = new ArrayList<User>();
-        int count = 0;
-        boolean searchErrorFlag = false;//默认无错，但是如果搜索的用户不存在时会提示错误
-        String errorMsg = "";
-        String username = request.getParameter("username");
-        int start = Integer.parseInt(request.getParameter("start"));
-        int limit = Integer.parseInt(request.getParameter("limit"));
-
-        if (username == null || username.trim().length() == 0) {
-            list = userService.getUsers(start, limit);
-            count = userService.getUsersNum();
-
-        } else {
-            User user = userService.getUser(username);
-            if (user != null) {//存在该用户
-                list.add(user);
-                count = 1;
-            } else {//不存在该用户
-                searchErrorFlag = true;
-                count = 0;
-                errorMsg = "不存在用户  " + username;
-            }
-        }
-
+    public void getUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("rows", list);
-        map.put("results", count);
-        map.put("hasError", searchErrorFlag);
-        map.put("error", errorMsg);
-        //json
-        //        Map<String, Object> value = new HashMap<String, Object>();
-        //        value.put("rows", list);
-        //        value.put("total", count);
-        //        Map<String, Object> map = new HashMap<String, Object>();
-        //        if (!searchErrorFlag) {
-        //            map.put("code", 200);
-        //            map.put("message", "");
-        //            map.put("value", value);
-        //        } else {
-        //            map.put("code", 120000);
-        //            map.put("message", errorMsg);
-        //            map.put("value", value);
-        //        }
-        BaseController.writeJson(logger, response, map);
+        try {
+            List<User> list = new ArrayList<User>();
+            int count = 0;
+            boolean searchErrorFlag = false;//默认无错，但是如果搜索的用户不存在时会提示错误
+            String errorMsg = "";
+            String username = request.getParameter("username");
+            int start = Integer.parseInt(request.getParameter("start"));
+            int limit = Integer.parseInt(request.getParameter("limit"));
+
+            if (username == null || username.trim().length() == 0) {
+                list = userService.getUsers(start, limit);
+                count = userService.getUsersNum();
+
+            } else {
+                User user = userService.getUser(username);
+                if (user != null) {//存在该用户
+                    list.add(user);
+                    count = 1;
+                } else {//不存在该用户
+                    searchErrorFlag = true;
+                    count = 0;
+                    errorMsg = "不存在用户  " + username;
+                }
+            }
+
+            map.put("rows", list);
+            map.put("results", count);
+            map.put("hasError", searchErrorFlag);
+            map.put("error", errorMsg);
+            BaseController.writeJson(response, map);//json
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, map);
+        }
     }
 
 
     @RequestMapping("/addUser")
-    public void addUser(HttpServletRequest request, HttpServletResponse response) {
-
-        User u = new User();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String userRights = request.getParameter("userRights");
-        if (userRights == null || userRights.trim().length() == 0) {
-            userRights = "normal user";
-        }
-        u.setUsername(username);
-        u.setPassword(password);
-        u.setUserRights(userRights);
-        boolean addSuccess = false;
-
+    public void addUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> error = new HashMap<String, Object>();
-        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-        if (!isAdmin(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其添加新用户
-            //            error.put("errno", -2);
-            //            error.put("errmsg", "您没有操作权限!");
-            error.put("code", 198000);//未授权
-            error.put("message", "您没有操作权限!");
-            error.put("value", false);
-            BaseController.writeJson(logger, response, error);
-            return;
+        try {
+            User u = new User();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String userRights = request.getParameter("userRights");
+            try {
+                if (userRights == null || userRights.trim().length() == 0) {
+                    userRights = "normal user";
+                }
+                u.setUsername(username);
+                u.setPassword(password);
+                u.setUserRights(userRights);
+
+                String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
+                if (!userService.isAdmin(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其添加新用户
+                    error.put("code", 198000);//未授权
+                    error.put("message", "您没有操作权限!");
+                    error.put("value", false);
+                    BaseController.writeJson(response, error);
+                    return;
+                }
+                userService.addUser(u);
+                logger.info(usernameOfLoginuser + " add User: " + username);
+                error.put("code", 200);
+                error.put("message", "成功添加新用户  " + username);
+                error.put("value", true);
+            } catch (Exception e) {// 添加用户失败
+                error.put("code", 120000);
+                error.put("message", "用户  " + username + "  已存在!");
+                error.put("value", false);
+            }
+            BaseController.writeJson(response, error);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, error);
         }
-        addSuccess = userService.addUser(u);
-        if (addSuccess) {// 添加用户成功
-            //            error.put("errno", 0);
-            //            error.put("errmsg", "成功添加新用户  " + username);
-            logger.info(usernameOfLoginuser + " add User: " + username);
-            error.put("code", 200);
-            error.put("message", "成功添加新用户  " + username);
-            error.put("value", true);
-        } else {// 添加用户失败
-            //            error.put("errno", -1);
-            //            error.put("errmsg", "用户  " + username + "  已存在!");
-            error.put("code", 120000);
-            error.put("message", "用户  " + username + "  已存在!");
-            error.put("value", false);
-        }
-        BaseController.writeJson(logger, response, error);
     }
 
 
     @RequestMapping("/deleteUser")
-    public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
-
-        String username = request.getParameter("username");
-        if (username == null) {
-            username = "";
-        }
-        boolean deleteSuccess = false;
-
+    public void deleteUser(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         Map<String, Object> error = new HashMap<String, Object>();
+        try {
+            String username = request.getParameter("username");
+            if (username == null) {
+                username = "";
+            }
+            boolean deleteSuccess = false;
 
-        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-        if (!isAdmin(usernameOfLoginuser) || username.equals(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其删除用户
-            //            error.put("errno", -2);
-            //            error.put("errmsg", "您没有操作权限!");
-            error.put("code", 198000);//未授权
-            error.put("message", "您没有操作权限!");
-            error.put("value", false);
-            BaseController.writeJson(logger, response, error);
-            return;
+            String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
+            if (!userService.isAdmin(usernameOfLoginuser) || username.equals(usernameOfLoginuser)) {// 如果登录的不是有admin权限用户，则不允许其删除用户
+                error.put("code", 198000);//未授权
+                error.put("message", "您没有操作权限!");
+                error.put("value", false);
+                BaseController.writeJson(response, error);
+                return;
+            }
+            deleteSuccess = userService.deleteUser(username);
+            if (deleteSuccess) {// 删除用户成功
+                logger.info(usernameOfLoginuser + " delete User: " + username);
+                error.put("code", 200);
+                error.put("message", "成功删除用户  " + username);
+                error.put("value", true);
+            } else {// 删除用户失败
+                error.put("code", 120000);
+                error.put("message", "用户  " + username + "  不存在!");
+                error.put("value", false);
+            }
+            BaseController.writeJson(response, error);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, error);
         }
-        deleteSuccess = userService.deleteUser(username);
-        if (deleteSuccess) {// 删除用户成功
-            //            error.put("errno", 0);
-            //            error.put("errmsg", "成功删除用户  " + username);
-            logger.info(usernameOfLoginuser + " delete User: " + username);
-            error.put("code", 200);
-            error.put("message", "成功删除用户  " + username);
-            error.put("value", true);
-        } else {// 删除用户失败
-            //            error.put("errno", -1);
-            //            error.put("errmsg", "用户  " + username + "  不存在!");
-            error.put("code", 120000);
-            error.put("message", "用户  " + username + "  不存在!");
-            error.put("value", false);
-        }
-        BaseController.writeJson(logger, response, error);
 
     }
 
-
-    private boolean isAdmin(String username) {
-        if (username == null || username.trim().length() == 0) {
-            return false;
-        }
-        final String USER_RIGHTS_OF_ADMIN = "admin";// 管理员的权限
-        String userRights = userService.getUser(username).getUserRights();// 已登录用户的权限
-        return USER_RIGHTS_OF_ADMIN.equals(userRights);
-    }
 }

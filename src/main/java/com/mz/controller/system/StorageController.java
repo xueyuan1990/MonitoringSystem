@@ -41,33 +41,31 @@ public class StorageController {
      */
     @RequestMapping("/getStoragesByPage")
     public void getStoragesByPage(String time, int groupId, int serverId,
-                                  HttpServletRequest request, HttpServletResponse response) {
-
-        List<Storage> list = new ArrayList<Storage>();
-        int count = 0;
-        int start = Integer.parseInt(request.getParameter("start"));
-        int limit = Integer.parseInt(request.getParameter("limit"));
-        if (groupId == -1 && serverId == -1) {
-            list = storageService.getStoragesByPage(time, start, limit);
-            count = storageService.getStoragesNum(time);
-        } else {
-            list = storageService.getStorage(groupId, serverId, time);
-            count = 1;
-        }
-        //json格式
+                                  HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("rows", list);
-        map.put("results", count);
-        map.put("hasError", false);
-        map.put("error", "");
-        //        Map<String, Object> value = new HashMap<String, Object>();
-        //        value.put("rows", list);
-        //        value.put("total", count);
-        //        Map<String, Object> map = new HashMap<String, Object>();
-        //        map.put("code", 200);
-        //        map.put("message", "");
-        //        map.put("value", value);
-        BaseController.writeJson(logger, response, map);
+        try {
+            List<Storage> list = new ArrayList<Storage>();
+            int count = 0;
+            int start = Integer.parseInt(request.getParameter("start"));
+            int limit = Integer.parseInt(request.getParameter("limit"));
+            if (groupId == -1 && serverId == -1) {
+                list = storageService.getStoragesByPage(time, start, limit);
+                count = storageService.getStoragesNum(time);
+            } else {
+                Storage s = storageService.getStorage(groupId, serverId, time);
+                list.add(s);
+                count = 1;
+            }
+            map.put("rows", list);
+            map.put("results", count);
+            map.put("hasError", false);
+            map.put("error", "");
+            BaseController.writeJson(response, map);//json
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, map);
+        }
     }
 
 
@@ -79,15 +77,19 @@ public class StorageController {
      */
     @RequestMapping("/getStoragesByGroup")
     public void getStoragesByGroup(String time, int groupId, HttpServletRequest request,
-                                   HttpServletResponse response) {
-
-        List<Storage> list = new ArrayList<Storage>();
-        list = storageService.getStoragesByGroup(time, groupId);
+                                   HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", 200);
-        map.put("message", "");
-        map.put("value", list);
-        BaseController.writeJson(logger, response, map);
+        try {
+            List<Storage> list = new ArrayList<Storage>();
+            list = storageService.getStoragesByGroup(time, groupId);
+            map.put("code", 200);
+            map.put("message", "");
+            map.put("value", list);
+            BaseController.writeJson(response, map);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, map);
+        }
     }
 
 
@@ -99,33 +101,34 @@ public class StorageController {
      */
     @RequestMapping("/setServerThreshold")
     public void setServerThreshold(int groupId, int serverId, int serverThreshold,
-                                   HttpServletRequest request, HttpServletResponse response) {
-        int oldServerThreshold = storageService.getServerThreshold(groupId, serverId);
-        if (oldServerThreshold == serverThreshold) {
-            return;
-        }
-
-        boolean flag = storageService.setServerThreshold(groupId, serverId, serverThreshold);
-
+                                   HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         Map<String, Object> error = new HashMap<String, Object>();
-        String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
-        if (flag) {
-            //            error.put("errno", 0);
-            //            error.put("errmsg", "");
+        try {
+            int oldServerThreshold = storageService.getServerThreshold(groupId, serverId);
+            if (oldServerThreshold == serverThreshold) {
+                return;
+            }
 
-            logger.info(usernameOfLoginuser + " update server threshold of " + groupId + "-"
-                    + serverId + " to " + serverThreshold);
-            error.put("code", 200);
-            error.put("message", "");
-            error.put("value", true);
-        } else {
-            //            error.put("errno", -1);
-            //            error.put("errmsg", "设置阀值失败！");
-            error.put("code", 120000);
-            error.put("message", "设置阀值失败！");
-            error.put("value", false);
+            boolean flag = storageService.setServerThreshold(groupId, serverId, serverThreshold);
+
+            String usernameOfLoginuser = (String) request.getSession().getAttribute("username");
+            if (flag) {
+                logger.info(usernameOfLoginuser + " update server threshold of " + groupId + "-"
+                        + serverId + " to " + serverThreshold);
+                error.put("code", 200);
+                error.put("message", "");
+                error.put("value", true);
+            } else {
+                error.put("code", 120000);
+                error.put("message", "设置阀值失败！");
+                error.put("value", false);
+            }
+            BaseController.writeJson(response, error);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, error);
         }
-        BaseController.writeJson(logger, response, error);
     }
 
 
@@ -137,18 +140,17 @@ public class StorageController {
      */
     @RequestMapping("/getStoragesPeriod")
     public void getStoragesPeriod(int groupId, int serverId, String startTime, String endTime,
-                                  int days, HttpServletRequest request, HttpServletResponse response) {
+                                  int days, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         List<Storage> list = new ArrayList<Storage>();
-        list = storageService.getStoragesPeriod(groupId, serverId, startTime, endTime, days);
-        //json
-        //        Map<String, Object> map = new HashMap<String, Object>();
-        //        map.put("code", 200);
-        //        map.put("message", "");
-        //        map.put("value", list);
-        //        BaseController.writeJson(logger, response, map);
-        BaseController.writeJson(logger, response, list);
-
+        try {
+            list = storageService.getStoragesPeriod(groupId, serverId, startTime, endTime, days);//json
+            BaseController.writeJson(response, list);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, list);
+        }
     }
 
 
@@ -160,17 +162,19 @@ public class StorageController {
      */
     @RequestMapping("/getGroupStorages")
     public void getGroupStorages(String time, HttpServletRequest request,
-                                 HttpServletResponse response) {
-
-        List<GroupStorage> list = new ArrayList<GroupStorage>();
-        list = storageService.getGroupStorages(time);
-
-        //前端饼图需要的信息
+                                 HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", 200);
-        map.put("message", "");
-        map.put("value", list);
-        BaseController.writeJson(logger, response, map);
+        try {
+            List<GroupStorage> list = new ArrayList<GroupStorage>();
+            list = storageService.getGroupStorages(time);
+            map.put("code", 200);
+            map.put("message", "");
+            map.put("value", list);
+            BaseController.writeJson(response, map);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, map);
+        }
     }
 
 }

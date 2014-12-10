@@ -21,6 +21,13 @@ public class TrackerService {
     SqlSession sqlSession;
 
 
+    /**
+     * 返回所有的tracker信息
+     * 
+     * @return tracker集合
+     * @author xueyuan
+     * @since 1.0
+     **/
     public List<Tracker> getTrackers() {
         List<Tracker> list = new ArrayList<Tracker>();
         list = sqlSession.selectList("tracker.getTrackers");
@@ -29,11 +36,12 @@ public class TrackerService {
 
 
     /**
-     * Tracker OFFLINE时报警
+     * 返回状态是offline的tracker信息
      * 
+     * @return offline的tracker集合
      * @author xueyuan
      * @since 1.0
-     */
+     **/
     public List<Tracker> getTrackersOffline() {
         List<Tracker> list = new ArrayList<Tracker>();
         list = sqlSession.selectList("tracker.getTrackersOffline");

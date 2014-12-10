@@ -55,10 +55,12 @@ function showUserInTable() {
 					username : username
 				},
 				success : function(response) {
-					if (response.code != 200) {
-						BUI.Message.Alert(response.message, 'error');
-					} else {
+					if (response.code == 200) {
 						BUI.Message.Alert(response.message, 'success');
+					} else if(response.message!=null) {
+						BUI.Message.Alert(response.message, 'error');
+					}else{
+						window.location.href = path + '/500.jsp';
 					}
 					store.load();
 				}
@@ -90,10 +92,12 @@ function showUserInTable() {
 								userRights : userRights
 							},
 							success : function(response) {
-								if (response.code != 200) {
-									BUI.Message.Alert(response.message, 'error');
-								} else {
+								if (response.code == 200) {
 									BUI.Message.Alert(response.message, 'success');
+								} else if(response.message!=null) {
+									BUI.Message.Alert(response.message, 'error');
+								}else{
+									window.location.href = path + '/500.jsp';
 								}
 								edtor.accept();
 								store.load();
@@ -136,9 +140,6 @@ function showUserInTable() {
 					var rowData = ev.record;
 					if (operation == "delete") {
 						deleteUser(rowData);
-					}
-					if (operation == "alert") {
-						alertUser(rowData);
 					}
 				}
 			}

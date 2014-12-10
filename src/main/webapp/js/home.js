@@ -69,8 +69,8 @@ function search() {
 			for ( var i in datas) {
 				var groupId = (parseInt(i) + 1);
 				var data = datas[i];
-				var info = "&nbsp;&nbsp;&nbsp;&nbsp;存储服务器（第" + data.groupId + "组）：总容量=" + data.groupTotal + "M（已用" + data.groupFree + "M，空闲"
-						+ (data.groupTotal - data.groupFree) + "M），阀值=" + data.groupThreshold + "M";
+				var info = "&nbsp;&nbsp;&nbsp;&nbsp;存储服务器（" + data.groupName + "）：总容量=" + data.groupTotal + "M（已用" + (data.groupTotal - data.groupFree) + "M，空闲"
+						+ data.groupFree + "M），阀值=" + data.groupThreshold + "M";
 				$('#storageGroup').append('<div id="group' + groupId + '" class="group" ><h2>' + info + '</h2></div>');
 				selectStorageByGroup(groupId);
 			}

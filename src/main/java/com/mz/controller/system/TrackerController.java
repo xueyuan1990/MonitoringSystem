@@ -33,15 +33,20 @@ public class TrackerController {
 
 
     @RequestMapping("/getTrackers")
-    public void getTrackers(HttpServletRequest request, HttpServletResponse response) {
-
-        List<Tracker> list = new ArrayList<Tracker>();
-        list = trackerService.getTrackers();
-
+    public void getTrackers(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", 200);
-        map.put("message", "");
-        map.put("value", list);
-        BaseController.writeJson(logger, response, map);
+        try {
+            List<Tracker> list = new ArrayList<Tracker>();
+            list = trackerService.getTrackers();
+
+            map.put("code", 200);
+            map.put("message", "");
+            map.put("value", list);
+            BaseController.writeJson(response, map);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, map);
+        }
     }
 }

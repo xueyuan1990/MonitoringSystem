@@ -17,8 +17,7 @@
 		</div>
 		<div class="pull-right">
 			<span><i class="icon-user icon-white"></i>&nbsp;${username }&nbsp;&nbsp;</span>
-			<span><a href="${path }/system/logoff/logoff.do"><i
-					class="icon-off icon-white"></i>&nbsp;注销&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="logoff"><i class="icon-off icon-white"></i>&nbsp;注销&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 		</div>
 	</div>

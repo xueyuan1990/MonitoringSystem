@@ -1,196 +1,288 @@
 package com.mz.service;
 
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.jtester.annotations.DbFit;
-import org.jtester.annotations.SpringApplicationContext;
-import org.jtester.annotations.SpringBeanByName;
-import org.jtester.testng.JTester;
-import org.testng.annotations.Test;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.MockitoAnnotations.Mock;
+import org.unitils.UnitilsJUnit4TestClassRunner;
+import org.unitils.inject.annotation.InjectIntoByType;
+import org.unitils.reflectionassert.ReflectionAssert;
 
 import com.mz.entity.GroupStorage;
 import com.mz.entity.Storage;
 
-/**
- * 测试StorageService
- * 
- * @author xueyuan
- * @since 1.0
- **/
-@Test
-@SpringApplicationContext({ "spring-test-datasources.xml" })
-public class StorageServiceTest extends JTester {
-    @SpringBeanByName("storageService")
-    StorageService storageService;
+@RunWith(UnitilsJUnit4TestClassRunner.class)
+public class StorageServiceTest {
+
+    @Mock
+    @InjectIntoByType(target = "storageService")
+    private SqlSession     sqlSession;
+    @InjectMocks
+    private StorageService storageService; //被测对象
+
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
 
     @Test
-    @DbFit(when = "StorageService.getStorage.when.wiki")
+    public void testGetStoragesByPage() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        params.put("start", 0);
+        params.put("limit", 10);
+        List listExp = new ArrayList();
+        Storage s1 = new Storage("2014-01-01 00:00:00", 1, 1);
+        Storage s2 = new Storage("2014-01-01 00:00:00", 1, 2);
+        listExp.add(s1);
+        listExp.add(s2);
+        //mock
+        Mockito.when(sqlSession.selectList("storage.getStoragesByPage", params))
+                .thenReturn(listExp);
+
+        //test
+        List<Storage> list = storageService.getStoragesByPage("2014-01-01 00:00:00", 0, 10);
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectList("storage.getStoragesByPage", params);
+    }
+
+
+    @Test
     public void testGetStorage() {
-        List<Storage> list = new ArrayList<Storage>();
-        int groupId = 1;
-        int serverId = 1;
-        String time = "2014-01-01 08:00:00";
-        list = storageService.getStorage(groupId, serverId, time);
-        want.list(list).sizeEq(1);
-        want.object(list.get(0)).propertyEq("time", time);//判断对象的属性
-        want.object(list.get(0)).propertyEq("groupId", groupId);
-        want.object(list.get(0)).propertyEq("serverId", serverId);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        params.put("groupId", 1);
+        params.put("serverId", 1);
+        Storage sExp = new Storage("2014-01-01 00:00:00", 1, 1);
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getStorage", params)).thenReturn(sExp);
+
+        //test
+        Storage s = storageService.getStorage(1, 1, "2014-01-01 00:00:00");
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(sExp, s);
+        Mockito.verify(sqlSession).selectOne("storage.getStorage", params);
 
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesByGroup.when.wiki")
     public void testGetStoragesByGroup() {
-        List<Storage> list = new ArrayList<Storage>();
-        int groupId = 1;
-        String time = "2014-01-01 08:00:00";
-        list = storageService.getStoragesByGroup(time, groupId);
-        want.list(list).allItemsMatchAll(the.object().propertyEq("time", time),
-                the.object().propertyEq("groupId", groupId));
-        want.list(list).sizeEq(2);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        params.put("groupId", 1);
+        List listExp = new ArrayList();
+        Storage s1 = new Storage("2014-01-01 00:00:00", 1, 1);
+        Storage s2 = new Storage("2014-01-01 00:00:00", 1, 2);
+        listExp.add(s1);
+        listExp.add(s2);
+        //mock
+        Mockito.when(sqlSession.selectList("storage.getStoragesByGroup", params)).thenReturn(
+                listExp);
+
+        //test
+        List<Storage> list = storageService.getStoragesByGroup("2014-01-01 00:00:00", 1);
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectList("storage.getStoragesByGroup", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.setServerThreshold.when.wiki", then = "StorageService.setServerThreshold.then.wiki")
-    public void testSetServerThreshold() {
-        int groupId = 1;
-        int serverId = 1;
-        int serverThreshold = 90;
-        storageService.setServerThreshold(groupId, serverId, serverThreshold);
+    public void testGetStoragesPeriod() throws ParseException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", 1);
+        params.put("serverId", 1);
+        params.put("startTime", "2014-01-01 00:00:00");
+        params.put("endTime", "2014-01-07 00:00:00");
+        List listExp = new ArrayList();
+        Storage s1 = new Storage("2014-01-01 00:00:00", 1, 1);
+        Storage s2 = new Storage("2014-01-02 00:00:00", 1, 1);
+        listExp.add(s1);
+        listExp.add(s2);
+        //mock
+        Mockito.when(sqlSession.selectList("storage.getStoragesPeriod", params))
+                .thenReturn(listExp);
+        Storage s3 = new Storage("2014-01-03 00:00:00", 1, 1);
+        Storage s4 = new Storage("2014-01-04 00:00:00", 1, 1);
+        Storage s5 = new Storage("2014-01-05 00:00:00", 1, 1);
+        Storage s6 = new Storage("2014-01-06 00:00:00", 1, 1);
+        Storage s7 = new Storage("2014-01-07 00:00:00", 1, 1);
+        listExp.add(s3);
+        listExp.add(s4);
+        listExp.add(s5);
+        listExp.add(s6);
+        listExp.add(s7);
 
+        //test
+        List<Storage> list = storageService.getStoragesPeriod(1, 1, "2014-01-01 00:00:00",
+                "2014-01-07 00:00:00", 7);
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectList("storage.getStoragesPeriod", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesNum.when.wiki")
     public void testGetStoragesNum() {
-        String time = "2014-01-01 08:00:00";
-        int cnt = storageService.getStoragesNum(time);
-        want.number(cnt).eq(2);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        int numExp = 4;
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getStoragesNum", params)).thenReturn(numExp);
 
+        //test
+        int num = storageService.getStoragesNum("2014-01-01 00:00:00");
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(numExp, num);
+        Mockito.verify(sqlSession).selectOne("storage.getStoragesNum", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesPeriod1.when.wiki")
-    public void testGetStoragesPeriod1() throws Exception {
-        List<Storage> list = new ArrayList<Storage>();
-        int groupId = 1;
-        int serverId = 1;
-        String startTime = "2014-01-02 06:00:00";
-        String endTime = "2014-01-02 11:00:00";
-        int days = 1;
-        int timeInterval = 3600 * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long startTimeLong = dateFormat.parse(startTime).getTime();
+    public void testGetGroupStorages() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        List listExp = new ArrayList();
+        GroupStorage gs1 = new GroupStorage("2014-01-01 00:00:00", 1, "group1", 10, 100, 50);
+        GroupStorage gs2 = new GroupStorage("2014-01-01 00:00:00", 2, "group2", 10, 100, 50);
+        listExp.add(gs1);
+        listExp.add(gs2);
 
-        list = storageService.getStoragesPeriod(groupId, serverId, startTime, endTime, days);
+        //mock
+        Mockito.when(sqlSession.selectList("storage.getGroupStorages", params)).thenReturn(listExp);
 
-        want.list(list).allItemsMatchAll(
-                the.object().propertyMatch("time", the.string().end(":00:00")));
+        //test
+        List<GroupStorage> list = storageService.getGroupStorages("2014-01-01 00:00:00");
 
-        for (int i = 0; i < list.size(); i++) {
-            Storage storage = list.get(i);
-            String time = dateFormat.format(new Date(startTimeLong + timeInterval * i)).toString();
-            want.object(storage).propertyEq("time", time);
-            want.object(storage).propertyEq("groupId", groupId);
-            want.object(storage).propertyEq("serverId", serverId);
-        }
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectList("storage.getGroupStorages", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesPeriod7.when.wiki")
-    public void testGetStoragesPeriod7() throws Exception {
-        List<Storage> list = new ArrayList<Storage>();
-        int groupId = 1;
-        int serverId = 1;
-        String startTime = "2014-01-02 00:00:00";
-        String endTime = "2014-01-09 00:00:00";
-        int days = 7;
-        int timeInterval = 24 * 3600 * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long startTimeLong = dateFormat.parse(startTime).getTime();
+    public void testGetStorageOffline() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        List listExp = new ArrayList();
+        Storage s = new Storage("2014-01-01 00:00:00", 2, 1, "127.0.2.1 OFFLINE");
+        listExp.add(s);
 
-        list = storageService.getStoragesPeriod(groupId, serverId, startTime, endTime, days);
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getLastTime")).thenReturn("2014-01-01 00:00:00");
+        Mockito.when(sqlSession.selectList("storage.getStoragesOffline", params)).thenReturn(
+                listExp);
 
-        want.list(list).allItemsMatchAll(
-                the.object().propertyMatch("time", the.string().end("00:00:00")));
+        //test
+        List<Storage> list = storageService.getStoragesOffline();
 
-        for (int i = 0; i < list.size(); i++) {
-            Storage storage = list.get(i);
-            String time = dateFormat.format(new Date(startTimeLong + timeInterval * i)).toString();
-            want.object(storage).propertyEq("time", time);
-            want.object(storage).propertyEq("groupId", groupId);
-            want.object(storage).propertyEq("serverId", serverId);
-        }
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectOne("storage.getLastTime");
+        Mockito.verify(sqlSession).selectList("storage.getStoragesOffline", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getGroupStorages.when.wiki")
-    public void testGetGroupStorages() throws Exception {
-        List<GroupStorage> list = new ArrayList<GroupStorage>();
-        String time = "2014-01-01 09:00:00";
-        list = storageService.getGroupStorages(time);
-        want.list(list).sizeEq(1);
-        GroupStorage g1 = list.get(0);
-        want.object(g1).propertyEq("time", time);
-        want.object(g1).propertyEq("groupId", 1);
-        want.object(g1).propertyEq("groupThreshold", 600);
-        want.object(g1).propertyEq("groupTotal", 2000);
-        want.object(g1).propertyEq("groupFree", 1600);
+    public void testGetStoragesLessFreeStorage() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        List listExp = new ArrayList();
+        Storage s = new Storage("2014-01-01 00:00:00", 2, 1);
+        listExp.add(s);
 
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getLastTime")).thenReturn("2014-01-01 00:00:00");
+        Mockito.when(sqlSession.selectList("storage.getStoragesLessFreeStorage", params))
+                .thenReturn(listExp);
+
+        //test
+        List<Storage> list = storageService.getStoragesLessFreeStorage();
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectOne("storage.getLastTime");
+        Mockito.verify(sqlSession).selectList("storage.getStoragesLessFreeStorage", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesOffline.when.wiki")
-    public void testGetStoragesOffline() throws Exception {
-        List<Storage> list = new ArrayList<Storage>();
-        list = storageService.getStoragesOffline();
-        want.list(list).allItemsMatchAll(
-                the.object().propertyMatch("ipAddr", the.string().contains("OFFLINE")));
+    public void testGetStoragesNginxDisconnectted() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("time", "2014-01-01 00:00:00");
+        List listExp = new ArrayList();
+        Storage s1 = new Storage("2014-01-01 00:00:00", 1, 1, "127.0.1.1 ACTIVE");
+        Storage s2 = new Storage("2014-01-01 00:00:00", 1, 2, "127.0.1.2 ACTIVE");
+        listExp.add(s1);
+        listExp.add(s2);
 
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getLastTime")).thenReturn("2014-01-01 00:00:00");
+        Mockito.when(sqlSession.selectList("storage.getStorages", params)).thenReturn(listExp);
+
+        //test
+        List<Storage> list = storageService.getStoragesNginxDisconnectted();
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(listExp, list);
+        Mockito.verify(sqlSession).selectOne("storage.getLastTime");
+        Mockito.verify(sqlSession).selectList("storage.getStorages", params);
     }
 
 
     @Test
-    @DbFit(when = "StorageService.getStoragesLessFreeStorage.when.wiki")
-    public void testGetStoragesLessFreeStorage() throws Exception {
-        List<Storage> list = new ArrayList<Storage>();
-        list = storageService.getStoragesLessFreeStorage();
-        Iterator<Storage> it = list.iterator();
-        while (it.hasNext()) {
-            Storage storage = it.next();
-            int fs = storage.getFreeStorage();
-            int th = storage.getServerThreshold();
-            want.number(fs).isLessThan(th);
-        }
+    public void testGetServerThreshold() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", 1);
+        params.put("serverId", 1);
+        int thExp = 10;
+
+        //mock
+        Mockito.when(sqlSession.selectOne("storage.getServerThreshold", params)).thenReturn(thExp);
+
+        //test
+        int th = storageService.getServerThreshold(1, 1);
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(thExp, th);
+        Mockito.verify(sqlSession).selectOne("storage.getServerThreshold", params);
     }
 
-    //    @Test
-    //    @DbFit(when = "StorageService.alertNginx.when.wiki")
-    //    public void testAlertNginx() {
-    //        List<Storage> list = new ArrayList<Storage>();
-    //        list = storageService.alertNginx();
-    //        want.list(list).sizeEq(1);
-    //        want.object(list.get(0)).propertyMatch("ipAddr", the.string().contains("172.16.3.17"));
-    //
-    //    }
 
-    //    @Test
-    //    public void testA() {
-    //        String surl = "http://172.16.3.18";
-    //        boolean flag = false;
-    //        flag = storageService.getHttpCode(surl);
-    //        want.bool(flag).is(false);
-    //    }
+    @Test
+    public void testSetServerThreshold() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", 1);
+        params.put("serverId", 1);
+        params.put("serverThreshold", 10);
+
+        //mock
+        Mockito.when(sqlSession.update("storage.setServerThreshold", params)).thenReturn(1);
+
+        //test
+        boolean flag = storageService.setServerThreshold(1, 1, 10);
+
+        // verify
+        ReflectionAssert.assertReflectionEquals(true, flag);
+        Mockito.verify(sqlSession).update("storage.setServerThreshold", params);
+    }
 }

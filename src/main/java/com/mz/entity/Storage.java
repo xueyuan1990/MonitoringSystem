@@ -7,17 +7,39 @@ package com.mz.entity;
  * @since 1.0
  **/
 public class Storage {
-    private String time;
-    private int    groupId;
-    private int    serverId;
-    private String ipAddr;
-    private int    totalStorage;
-    private int    freeStorage;
-    private int    usedStorage;         //total-free
-    private int    serverThreshold;
-    private int    successUploadCount;
-    private int    successDownloadCount;
-    private String lastHeartBeatTime;
+    private String time;                //信息获取时间
+    private int    groupId;             //storage服务器所属组的id
+    private int    serverId;            //storage服务器组内id
+    private String ipAddr;              //ip地址及状态（如ACTIVE,OFFLINE）
+    private int    totalStorage;        //总存储容量
+    private int    freeStorage;         //剩余空闲的存储容量
+    private int    usedStorage;         //已使用的存储容量 usedStorage=totalStorage-freeStorage
+    private int    serverThreshold;     //空闲容量的阀值
+    private int    successUploadCount;  //上传成功的文件总数
+    private int    successDownloadCount; //下载成功的文件总数
+    private String lastHeartBeatTime;   //最后在线时间
+
+
+    public Storage() {
+
+    }
+
+
+    public Storage(String time, int groupId, int serverId) {
+        super();
+        this.time = time;
+        this.groupId = groupId;
+        this.serverId = serverId;
+    }
+
+
+    public Storage(String time, int groupId, int serverId, String ipAddr) {
+        super();
+        this.time = time;
+        this.groupId = groupId;
+        this.serverId = serverId;
+        this.ipAddr = ipAddr;
+    }
 
 
     public String getTime() {

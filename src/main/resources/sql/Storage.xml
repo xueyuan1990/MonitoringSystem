@@ -32,7 +32,7 @@
 		order by s.time
 	</select>
 	<select id="getGroupStorages" resultType="com.mz.entity.GroupStorage">
-		select t.time time,gs.groupId groupId, gs.groupThreshold groupThreshold,t.grouptotal grouptotal, t.groupfree groupfree 
+		select t.time time,gs.groupId groupId, gs.groupName groupName,gs.groupThreshold groupThreshold,t.grouptotal grouptotal, t.groupfree groupfree 
 		from
 		(select time,groupId,sum(total_storage) grouptotal, sum(free_storage) groupfree from storage s	where s.time=#{time} group by groupId) t,groupStorage gs 
 		where gs.groupId=t.groupId order by gs.groupId

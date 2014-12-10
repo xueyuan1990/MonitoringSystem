@@ -13,10 +13,9 @@
 			<value>classpath:jdbc.properties</value>
 		</property>
 	</bean>
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url"
-			value="${database.url}"></property>
+		<property name="url" value="${database.url}"></property>
 		<property name="username" value="${database.username}"></property>
 		<property name="password" value="${database.password}"></property>
 		<property name="maxActive" value="100"></property>

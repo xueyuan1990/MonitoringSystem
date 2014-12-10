@@ -48,7 +48,6 @@ public class StorageService {
         params.put("start", start);
         params.put("limit", limit);
         list = sqlSession.selectList("storage.getStoragesByPage", params);
-
         return list;
     }
 
@@ -59,15 +58,14 @@ public class StorageService {
      * @author xueyuan
      * @since 1.0
      */
-    public List<Storage> getStorage(int groupId, int serverId, String time) {
-        List<Storage> list = new ArrayList<Storage>();
+    public Storage getStorage(int groupId, int serverId, String time) {
         time = toFormatTime(time);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("time", time);
         params.put("groupId", groupId);
         params.put("serverId", serverId);
-        list = sqlSession.selectList("storage.getStorage", params);
-        return list;
+        Storage s = (Storage) sqlSession.selectOne("storage.getStorage", params);
+        return s;
     }
 
 
@@ -93,10 +91,11 @@ public class StorageService {
      * 某段时间内某台服务器的信息，用来查看服务器容量变化趋势
      * 
      * @author xueyuan
+     * @throws ParseException 调用toFormatStoragesPeriod方法时可能抛异常
      * @since 1.0
      */
     public List<Storage> getStoragesPeriod(int groupId, int serverId, String startTime,
-                                           String endTime, int days) {
+                                           String endTime, int days) throws ParseException {
         List<Storage> list = new ArrayList<Storage>();
         endTime = toFormatTime(endTime);
         startTime = toFormatTime(startTime);
@@ -295,7 +294,6 @@ public class StorageService {
         if (!surl.startsWith("http://")) {
             surl = "http://" + surl;
         }
-        int code = 0;
         String msg = "";
         try {
             URL url = new URL(surl);
@@ -303,13 +301,14 @@ public class StorageService {
             httpUrlConnection.setConnectTimeout(3000);
             httpUrlConnection.setReadTimeout(3000);
             httpUrlConnection.connect();
-            code = new Integer(httpUrlConnection.getResponseCode());//200
+            int code = new Integer(httpUrlConnection.getResponseCode());//200
+            if (code == 200) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-        }
-        if (code == 200) {
-            return true;
-        } else {
             return false;
         }
 
@@ -320,10 +319,12 @@ public class StorageService {
      * 判断序列中时间是否连续，如果不是，则补全采样点，使序列成为时间连续的
      * 
      * @author xueyuan
+     * @throws ParseException dateFormat.parse(String)时可能抛出异常
      * @since 1.0
      */
     private List<Storage> toFormatStoragesPeriod(List<Storage> list, int groupId, int serverId,
-                                                 String startTime, String endTime, int days) {
+                                                 String startTime, String endTime, int days)
+            throws ParseException {
         if (list == null) {
             list = new ArrayList<Storage>();
         }
@@ -337,14 +338,8 @@ public class StorageService {
         startTime = toFormatTime(startTime);
         endTime = toFormatTime(endTime);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long startTimeLong = 0;
-        long endTimeLong = 0;
-        try {
-            startTimeLong = dateFormat.parse(startTime).getTime();
-            endTimeLong = dateFormat.parse(endTime).getTime();//1分钟=1000*60毫秒
-        } catch (ParseException e) {
-            logger.error(e.getMessage(), e);
-        }
+        long startTimeLong = dateFormat.parse(startTime).getTime();//异常ParseException
+        long endTimeLong = dateFormat.parse(endTime).getTime();//1分钟=1000*60毫秒
         int size = (int) ((endTimeLong - startTimeLong) / timeInterval + 1);
         if (size == list.size() || startTimeLong == 0 || endTimeLong == 0) {
             return list;
@@ -381,8 +376,8 @@ public class StorageService {
             }
 
         }
-
         return list;
+
     }
 
 
@@ -394,9 +389,6 @@ public class StorageService {
      */
     private String toFormatTime(String time) {
         if (time == null || time.trim().length() == 0) {
-            //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            //            time = dateFormat.format(new Date()).toString();
-            //last time
             time = (String) sqlSession.selectOne("storage.getLastTime");
         }
 

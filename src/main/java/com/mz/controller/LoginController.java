@@ -31,33 +31,33 @@ public class LoginController {
 
 
     @RequestMapping("/isLogin")
-    public void isLogin(HttpServletRequest request, HttpServletResponse response) {
-
-        User u = new User();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        u.setUsername(username);
-        u.setPassword(password);
-        boolean loginSuccess = false;
-        loginSuccess = userService.isLogin(u);
-
+    public void isLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> error = new HashMap<String, Object>();
-        if (loginSuccess) {
-            request.getSession().setAttribute("username", u.getUsername());
-            //			error.put("errno", 0);//验证成功
-            //			error.put("errmsg", "");
-            error.put("code", 200);
-            error.put("message", "");
-            error.put("value", true);
-        } else {
-            //            error.put("errno", -1);
-            //            error.put("errmsg", "用户名或密码错误!");
-            error.put("code", 198000);//未授权
-            error.put("message", "用户名或密码错误!");
-            error.put("value", false);
-        }
+        try {
+            User u = new User();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            u.setUsername(username);
+            u.setPassword(password);
+            boolean loginSuccess = false;
+            loginSuccess = userService.isLogin(u);
 
-        BaseController.writeJson(logger, response, error);
+            if (loginSuccess) {
+                request.getSession().setAttribute("username", u.getUsername());
+                error.put("code", 200);
+                error.put("message", "");
+                error.put("value", true);
+            } else {
+                error.put("code", 198000);//未授权
+                error.put("message", "用户名或密码错误!");
+                error.put("value", false);
+            }
+
+            BaseController.writeJson(response, error);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            BaseController.writeJson(response, error);
+        }
     }
 
 }

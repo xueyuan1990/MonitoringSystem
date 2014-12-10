@@ -7,7 +7,7 @@ $(function() {
 		$('.content iframe').css('visibility', 'hidden').attr('src', href);
 		return false;
 	})
-
+	$('.logoff').bind('click', logoff);
 	$('.sidebar li.item a.init').trigger('click');
 
 	setContentHeight();
@@ -18,6 +18,26 @@ $(function() {
 $(window).resize(function() {
 	setContentHeight();
 });
+/*
+ * 注销
+ */
+function logoff() {
+	$.ajax({
+		url : path + '/system/logoff/logoff.do',
+		type : 'POST',
+		dataType : 'json',
+		success : function(response) {
+			if (response.code == 200) {
+				window.location.href = path + '/login.jsp';
+			} else if(response.message!=null) {
+				BUI.Message.Alert(response.message, 'error');
+			}else{
+				window.location.href = path + '/500.jsp';
+			}
+		}
+
+	});
+}
 /*
  * 设置content高度
  */

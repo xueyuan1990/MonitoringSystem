@@ -7,13 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.slf4j.Logger;
+import com.alibaba.fastjson.JSON;
 
 /**
  * 提供json操作统一方法
@@ -24,97 +18,42 @@ import org.slf4j.Logger;
 
 public class BaseController {
 
-    public static void writeJson(Logger logger, HttpServletResponse response,
-                                 Map<String, Object> map) {
-
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-        om.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-        String info = null;
-        try {
-            info = om.writeValueAsString(map);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+    public static void writeJson(HttpServletResponse response, Map<String, Object> map)
+            throws IOException {
+        String info = JSON.toJSONString(map);
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = null;
-        try {
-            out = response.getWriter();
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-
+        out = response.getWriter();
         out.print(info);
         out.flush();
     }
 
 
-    public static void writeJson(Logger logger, HttpServletResponse response, List list) {
-
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-        om.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-        String info = null;
-        try {
-            info = om.writeValueAsString(list);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+    public static void writeJson(HttpServletResponse response, List list) throws IOException {
+        String info = JSON.toJSONString(list);
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = null;
-        try {
-            out = response.getWriter();
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-
+        out = response.getWriter();
         out.print(info);
         out.flush();
     }
 
 
-    public static void writeJson(Logger logger, HttpServletResponse response, String info) {
-
+    public static void writeJson(HttpServletResponse response, String info) throws IOException {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = null;
-        try {
-            out = response.getWriter();
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-
+        out = response.getWriter();
         out.print(info);
         out.flush();
     }
 
 
-    public static String getJson(Logger logger, HttpServletResponse response,
-                                 Map<String, Object> map) {
-
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-        om.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-        String info = null;
-        try {
-            info = om.writeValueAsString(map);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+    public static String getJson(HttpServletResponse response, Map<String, Object> map)
+            throws IOException {
+        String info = JSON.toJSONString(map);
         return info;
     }
 

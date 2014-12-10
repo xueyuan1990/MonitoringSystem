@@ -136,8 +136,10 @@ function showInTable() {
 						serverThreshold : ev.record.serverThreshold
 					},
 					success : function(response) {
-						if (response.code != 200) {
+						if (response.code != 200 && response.message != null) {
 							BUI.Message.Alert(response.message, 'error');
+						} else if (response.code != 200) {
+							window.location.href = path + '/500.jsp';
 						}
 					}
 				});
